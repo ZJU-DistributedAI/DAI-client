@@ -1,4 +1,5 @@
 var express = require('express');
+
 var router = express.Router();
 
 function completeRes(msg, code){
@@ -27,6 +28,9 @@ router.get('/dataaskingpage', function(req, res, next) {
 
 router.get('/modelaskingpage', function(req, res, next) {
     res.sendFile( __dirname + "/pages/" + "computing_model_ask.html" );
+});
+router.get("/adddata", function(req, res, next){
+    res.sendFile(__dirname+ "/pages/" + "dataclientwallet.html")
 });
 
 

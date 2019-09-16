@@ -130,7 +130,7 @@
                 <a class="dropdown-item"  onclick="doLocation('/user/createwalletpage')">Create Wallet</a>
                 <div class="dropdown-divider"></div>
                 <h6 class="dropdown-header">Functions:</h6>
-                <a class="dropdown-item" onclick="doLocation('/dataclient/walletpage')">Add Data</a>
+                <a class="dropdown-item" onclick="doLocation('/dataclient/adddata')">Add Data</a>
                 <a class="dropdown-item" onclick="doLocation('/dataclient/walletpage')">Agree Request</a>
                 <a class="dropdown-item" onclick="doLocation('/dataclient/walletpage')">Ask Computing</a>
                 <a class="dropdown-item" onclick="doLocation('/dataclient/walletpage')">Delete Data</a>
@@ -157,7 +157,7 @@
           <p>Manage your wallet.</p>
 
             <div class="card mb-3">
-                <div class="card-header">上传文件</div>
+                <div class="card-header">上传Metedata文件至IPFS</div>
                 <div class="card-body">
                     <FORM>
 
@@ -503,7 +503,7 @@
               console.log("click upload file ok");
               var file_obj = document.getElementById('uploadFileId').files[0];
               var fd = new FormData();
-              fd.append('uploadfile', file_obj);
+              fd.append('file', file_obj);
               $.ajax({
                   url:getIpfsAddres()+'/dataclient/uploadfile',
                   type: 'post',

@@ -1,5 +1,13 @@
 var express = require('express');
+var ipfsAPI = require('ipfs-api');
+var fs = require('fs')
+var multer  = require('multer');
+var yaml = require('yamljs')
 var router = express.Router();
+var ipfsConfig = JSON.parse(JSON.stringify(yaml.load('./config/ipfs-config.yaml')), null)
+console.log(ipfsConfig.config.url)
+var ipfs = ipfsAPI(ipfsConfig.config.url, ipfsConfig.config.port, {protocol: ipfsConfig.config.protocol});
+var upload = multer({dest: 'uploadtmp/'})
 
 function completeRes(msg, code){
     var response = {
@@ -31,6 +39,24 @@ router.get('/modelaskingpage', function(req, res, next) {
 
 router.get('/modelaskingpage', function(req, res, next) {
     res.sendFile( __dirname + "/pages/" + "data_model_ask.html" );
+});
+
+// 上传metadata文件至ipfs
+router.post('/uploadfile', upload.single('file'), function(req, res) {
+    console.log(req.file);
+    var response = null;
+    var data = fs.readFileSync(req.file.path)
+    promise = ipfs.files.add(data).then(function(resp){
+        console.log(resp);
+        response = completeRes(resp[0].hash, 200);
+        res.end(response);
+    }).catch(function(err){
+        response = completeRes("上传至ipfs失败", 500);
+        res.end(response);
+    });
+    // // console.log(result)
+    // // response = completeRes(result, 200);
+    
 });
 
 
