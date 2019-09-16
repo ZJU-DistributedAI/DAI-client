@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>DistributedAI - Model Client</title>
+
+    <!-- Bootstrap core CSS-->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template-->
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Page level plugin CSS-->
+    <link href="/static/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/static/css/sb-admin.css" rel="stylesheet">
+    <script src="/static/js/constant.js"></script>
+
+  </head>
+
+  <body id="page-top">
+
+    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+      <a class="navbar-brand mr-1" href="indexmodel.html">Model Client</a>
+
+      <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- Navbar Search -->
+      <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Navbar -->
+      <ul class="navbar-nav ml-auto ml-md-0">
+        <li class="nav-item dropdown no-arrow mx-1">
+          <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-bell fa-fw"></i>
+            <span class="badge badge-danger">9+</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown no-arrow mx-1">
+          <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-envelope fa-fw"></i>
+            <span class="badge badge-danger">7</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown no-arrow">
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user-circle fa-fw"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+            <a class="dropdown-item" href="#">Settings</a>
+            <a class="dropdown-item" href="#">Activity Log</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+          </div>
+        </li>
+      </ul>
+
+    </nav>
+
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+      <ul class="sidebar navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" onclick="doLocation('/modelclient/index')">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link"  onclick="doLocation('/user/downloadtool')">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Download Tools</span></a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link" onclick="doLocation('/modelclient/availabledatapage')">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Available Data</span></a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="WalletDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Wallet</span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="WalletDropdown">
+            <h6 class="dropdown-header">Create:</h6>
+            <a class="dropdown-item"  onclick="doLocation('/user/createwalletpage')">Create Wallet</a>
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Functions:</h6>
+            <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Ask Data</a>
+            <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Create Contract</a>
+            <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Upload Model</a>
+            <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Upload Result</a>
+            <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Get Computing Parameters</a>
+          </div>
+        </li>
+
+      </ul>
+
+      <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a onclick="doLocation('/modelclient/index')">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Model Client Wallet</li>
+          </ol>
+
+          <!-- Page Content -->
+          <h1>Model Client Wallet</h1>
+          <hr>
+          <p>Manage your wallet.</p>
+
+          <div class="card mb-3">
+            <div class="card-header">上传文件</div>
+            <div class="card-body">
+              <FORM>
+
+                <INPUT NAME="uploadfile" TYPE="file" ID="uploadFileId">
+
+                <INPUT ID="upload_btn" TYPE="submit" VALUE="Upload File">
+
+              </FORM>
+            </div>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-header">请求数据</div>
+            <div class="card-body">
+             <form >
+              <div class="form-group">
+                <div class="form-label-group">
+                  <input name="ask_from" type="text" id="ask_from" class="form-control" required="required" autofocus="autofocus" >
+                  <label for="ask_from">wallet: 模型方的钱包地址 </label>
+
+                </div>
+                </br>
+
+                <div class="form-label-group">
+                  <input name="ask_password" type="text" id="ask_password" class="form-control" required="required" autofocus="autofocus" >
+                  <label for="ask_password">password: 模型方的钱包密码</label>
+
+                </div>
+                </br>
+
+                <div class="form-label-group">
+                  <input name="ask_hash" type="text" id="ask_hash" class="form-control" required="required" autofocus="autofocus" >
+                  <label for="ask_hash">hash: 所请求的数据资源metadata的IPFShash</label>
+                </div>
+
+
+              </div>
+
+              <button id="AskData" class="btn btn-primary btn-block" type="button">Submit</button>
+             </form>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header">Create Contract</div>
+            <div class="card-body">
+             <form >
+              <div class="form-group">
+                <div class="form-label-group">
+                  <input name="CreateContract_password" type="text" id="CreateContract_password" class="form-control" required="required" autofocus="autofocus" >
+                  <label for="CreateContract_password">password: 模型方的钱包密码 </label>
+                </div>
+
+              </div>
+              <button id="CreateContract" class="btn btn-primary btn-block" type="button">Submit</button>
+             </form>
+          </div>
+        </div>
+
+
+
+
+		<div class="card mb-3">
+            <div class="card-header">上传模型资源</div>
+            <div class="card-body">
+              <form >
+                <div class="form-group">
+                  <div class="form-label-group">
+                    <input name="upload_from" type="text" id="upload_from" class="form-control" required="required" autofocus="autofocus" >
+                    <label for="upload_from">wallet: 模型方的钱包地址 </label>
+
+                  </div>
+                  </br>
+
+                  <div class="form-label-group">
+                    <input name="upload_password" type="text" id="upload_password" class="form-control" required="required" autofocus="autofocus" >
+                    <label for="upload_password">password: 模型方的钱包密码 </label>
+                  </div>
+
+                  </br>
+
+                  <div class="form-label-group">
+                    <input name="upload_model_hash" type="text" id="upload_model_hash" class="form-control" required="required" autofocus="autofocus" >
+                    <label for="upload_model_hash">model_hash: 存储加密后模型的IPFShash</label>
+                  </div>
+                  </br>
+
+                  <div class="form-label-group">
+                    <input name="upload_contract_hash" type="text" id="upload_contract_hash" class="form-control" required="required" autofocus="autofocus" >
+                    <label for="upload_contract_hash">contract_hash: 此次交易的智能合约地址</label>
+                  </div>
+
+
+                </div>
+
+                <button id="UploadModel" class="btn btn-primary btn-block" type="button">Submit</button>
+              </form>
+            </div>
+          </div>
+
+
+          <div class="card mb-3">
+            <div class="card-header">获取运算方的参数</div>
+            <div class="card-body">
+              <form >
+                <div class="form-group">
+
+
+                  <div class="form-label-group">
+                    <input name="modeladdress" type="text" id="modeladdress" class="form-control" required="required" autofocus="autofocus" >
+                    <label for="param_password">modeladdress: 模型方的地址 </label>
+                  </div>
+
+                </div>
+
+                <button id="param" class="btn btn-primary btn-block" type="button">Submit</button>
+              </form>
+            </div>
+          </div>
+
+
+
+
+
+        <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <footer class="sticky-footer">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright © Your DistributedAI 2019</span>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+      <!-- /.content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" onclick="doLocation('/user/login')">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/static/js/sb-admin.min.js"></script>
+
+  </body>
+
+  <script type="text/javascript">
+    var interfaceAddress = getAddress();
+    function doLocation(url)
+    {
+      window.location.href =interfaceAddress+ url;
+    }
+      $(function() {
+          $("#AskData").on('click', function() {  //添加点击事件
+              console.log("click AskData ok");
+              $.ajax({
+                  url:interfaceAddress+'/modelclient/askdata',
+                  type:'post',
+                  dataType : 'text',
+                  data: "password="+$('#ask_password').val()+"&from="+$('#ask_from').val()+"&metaDataInfo="+$('#ask_hash').val(),
+                  success : function(data){
+                      console.log(data);
+                      var jsonObj = $.parseJSON(data)
+                      alert(jsonObj.msg);
+                  },
+                  fail : function (data) {
+                      console.log(data);
+                      alert("请求失败");
+                  }
+              });
+          });
+
+          $("#CreateContract").on('click', function() {  //添加点击事件
+              console.log("click CreateContract ok");
+              $.ajax({
+                  url:interfaceAddress+'/modelclient/createcontract',
+                  type:'post',
+                  dataType : 'text',
+                  data: "password="+$('#CreateContract_password').val(),
+                  success : function(data){
+                      console.log(data);
+                      var jsonObj = $.parseJSON(data)
+                      alert(jsonObj.msg);
+                  },
+                  fail : function (data) {
+                      console.log(data);
+                      alert("请求失败");
+                  }
+              });
+          });
+
+
+        $("#param").on('click', function() {  //添加点击事件
+          console.log("click CreateContract ok");
+          $.ajax({
+            url:interfaceAddress+'/modelclient/monitorparameter',
+            type:'post',
+            dataType : 'text',
+            data: "modeladdress="+$('#modeladdress').val(),
+            success : function(data){
+              console.log(data);
+              var jsonObj = $.parseJSON(data)
+              alert(jsonObj.msg);
+            },
+            fail : function (data) {
+              console.log(data);
+              alert("请求失败");
+            }
+          });
+        });
+
+
+          $("#UploadModel").on('click', function() {  //添加点击事件
+              console.log("click UploadModel ok");
+              $.ajax({
+                  url:interfaceAddress+'/modelclient/uploadmodel',
+                  type:'post',
+                  dataType : 'text',
+                  data: "password="+$('#upload_password').val()+"&from="+$('#upload_from').val()+
+                          "&modelIpfsHash="+$('#upload_model_hash').val()+"&contractHash="+$('#upload_contract_hash').val() ,
+                  success : function(data){
+                      console.log(data);
+                      var jsonObj = $.parseJSON(data)
+                      alert(jsonObj.msg);
+                  },
+                  fail : function (data) {
+                      console.log(data);
+                      alert("请求失败");
+                  }
+              });
+          });
+
+          $("#UploadResult").on('click', function() {  //添加点击事件
+              console.log("click UploadResult ok");
+              $.ajax({
+                  url:'http://127.0.0.1:3000/modelclient/UploadResult',
+                  type:'post',
+                  dataType : 'text',
+                  data: "ETH_key="+$('#uploadFinal_ETH_key').val()+"&hash="+$('#uploadFinal_hash').val()+
+                      "&rsa_key="+$('#uploadFinal_rsa_key').val()+  "&trans_id="+$('#uploadFinal_trans_id').val(),
+                  success : function(data){
+                      console.log(data);
+                      var jsonObj = $.parseJSON(data)
+                      alert(jsonObj.msg);
+                  },
+                  fail : function (data) {
+                      console.log(data);
+                      alert("请求失败");
+                  }
+              });
+          });
+
+          $("#upload_btn").on('click', function () {
+            console.log("click upload file ok");
+            var file_obj = document.getElementById('uploadFileId').files[0];
+            var fd = new FormData();
+            fd.append('uploadfile', file_obj);
+            $.ajax({
+              url:getIpfsAddres()+'/dataclient/uploadfile',
+              type: 'post',
+              data: fd,
+              processData:false,
+              contentType: false,
+              success : function(data) {
+                console.log(data);//
+                var jsonObj = $.parseJSON(data);
+                alert(jsonObj.msg);
+              }
+            });
+            return false;
+          });
+
+
+      })
+  </script>
+
+
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <title>Create Wallet</title>
+    <script src="/static/js/constant.js"></script>
+     <!-- Bootstrap core CSS-->
+     <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+     <!-- Custom fonts for this template-->
+     <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+ 
+     <!-- Custom styles for this template-->
+     <link href="/static/css/sb-admin.css" rel="stylesheet">
+    <script src="/static/js/constant.js"></script>
+
+  </head>
+
+  <body class="bg-dark">
+
+      <div class="container">
+          <div class="card card-login mx-auto mt-5">
+            <div class="card-header">Create Eth Wallet</div>
+            <div class="card-body">
+              <form>
+               
+                <div class="form-group">
+                  <div class="form-label-group">
+                    <input type="password" id="inputPassword" class="form-control" placeholder="Wallet Password" required="required">
+                    <label for="inputPassword">Password</label>
+                  </div>
+                </div>
+                <a id ="CreateBtn" class="btn btn-primary btn-block" >Create</a>
+              
+              </form>
+              
+            </div>
+          </div>
+        </div>
+    
+        <!-- Bootstrap core JavaScript-->
+        <script src="/static/vendor/jquery/jquery.min.js"></script>
+        <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    
+        <!-- Core plugin JavaScript-->
+        <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  </body>
+
+  <script type="text/javascript">
+    $(function() {
+      var interfaceAddress = getAddress();
+      $("#CreateBtn").on('click', function() {  //添加点击事件
+              console.log("click CreateBtn ok");
+              $.ajax({
+                  url:interfaceAddress+'/user/createwallet',
+                  type:'post',
+                  dataType : 'text', // use json instead of text
+                  data: "password="+$('#inputPassword').val(),
+                  success : function(data){
+                      console.log(data);
+                      var jsonObj = $.parseJSON(data);
+                      alert("address: " + jsonObj.msg.address + "\nprivate key:" + jsonObj.msg.privateKey);
+                  },
+                  fail : function (data) {
+                      console.log(data);//
+                      alert("请求失败");
+                  }
+              });
+          });
+
+      })
+  </script>
+
+</html>
+
