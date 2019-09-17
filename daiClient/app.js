@@ -9,7 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var dataClientRouter = require('./routes/dataclient');
 var modelClientRouter = require('./routes/modelclient');
-
+var  config = require('./config/config')
 
 var app = express();
 
