@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer')
 var upload = multer({dest: 'uploadmodeltmp/'})
-
+var utils = require("./utils.js")
 
 function completeRes(msg, code){
     var response = {
@@ -41,8 +41,48 @@ router.post('/uploadfile', upload.single('file'), function(req, res) {
     });
     // // console.log(result)
     // // response = completeRes(result, 200);
-    
+     
 });
+
+
+
+
+router.get('/getdataarray', function(req, res){
+
+    global.web3.eth.personal.unlockAccount(global.adminAddress, global.adminPassword).then(function(){
+        global.web3.eth.getAccounts().then(function(result){
+            var total = {};
+            var number = 0;
+            for(var i=0; i<result.length; i++){
+                var address = result[i];
+                global.contract.methods.getDataArray(address).call(null, function(err, result2){
+
+                    if(result2.length != 0){
+                        total[address] = [];
+                        for(var j=0; j<result2.length; j++){
+                            var hexHash = produceHashHex(handleHex(result2[j].lhash), handleHex(result2[j].rhash));
+                            var dataIpfsHash = global.web3.utils.hexToAscii(hexHash); 
+                            total[address].push(dataIpfsHash);
+                        }
+                    }
+                    number++;
+                    if(number == result.length){
+                        console.log(total);
+                        response = completeRes(total, 200);
+                        // res.end(response);
+                        res.end(response);
+                    }
+                 })
+            }
+          
+        })
+        
+   });
+
+});
+
+
+
 
 router.post('/askdata', function (req, res) {
     var response;

@@ -37,6 +37,9 @@ router.get('/modelaskingpage', function(req, res, next) {
     res.sendFile( __dirname + "/pages/" + "data_model_ask.html" );
 });
 
+
+
+
 // 上传metadata文件至ipfs
 router.post('/uploadfile', upload.single('file'), function(req, res) {
 
@@ -55,8 +58,48 @@ router.post('/uploadfile', upload.single('file'), function(req, res) {
     
 });
 
+router.post('/sendData', function(req, res){
 
-router.post('/addmetadata', function (req, res) {
+    
+    var from = req.body['from'];
+    var metaDataIpfsHash = req.body['metaDataIpfsHash'];
+    // 参数判断
+    if(metaDataIpfsHash===undefined|| metaDataIpfsHash===''||
+        from ===undefined|| from ==='') {
+        response = completeRes("参数不完全", 201);
+        res.end(response);
+    }
+    var metadataHash = web3.utils.toHex(metaDataIpfsHash);
+    var lhash = metadataHash.substring(0, metadataHash.length/2);
+    var rhash = "0x"+metadataHash.substring(metadataHash.length/2, metadataHash.length);
+    global.web3.eth.personal.unlockAccount(global.adminAddress, global.adminPassword).then(function(){
+         global.contract.methods.storeMetadata(lhash, rhash, from).send({from: global.adminAddress}).on('receipt', function(confirmationNumber, receipt){
+            response = completeRes(confirmationNumber, 200);
+            res.send(response);
+         })
+    });
+
+});
+
+
+router.get('/getrecvmodel', function(req, res){
+
+    var from = req.body['from'];
+    if(from===undefine || from===''){
+        response = completeRes("参数不完全", 201);
+        res.end(response);
+    }
+    global.web3.eth.personal.unlockAccount(global.adminAddress, global.adminPassword).then(function(){
+        global.contract.methods.getRecvModels(from).call(null, function(err, result){
+           response = completeRes(result, 200);
+           res.send(response);
+        })
+   });
+
+});
+
+
+router.post('/addmetadata', function(req, res) {
     var response;
     var password = req.body.password;
     var from = req.body.from;

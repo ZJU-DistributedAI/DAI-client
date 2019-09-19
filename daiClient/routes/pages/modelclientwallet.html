@@ -120,11 +120,11 @@
             <a class="dropdown-item"  onclick="doLocation('/user/createwalletpage')">Create Wallet</a>
             <div class="dropdown-divider"></div>
             <h6 class="dropdown-header">Functions:</h6>
-            <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Ask Data</a>
-            <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Create Contract</a>
+            <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">list Data</a>
+            <!-- <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Create Contract</a> -->
             <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Upload Model</a>
-            <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Upload Result</a>
-            <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Get Computing Parameters</a>
+            <!-- <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Upload Result</a>
+            <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Get Computing Parameters</a> -->
           </div>
         </li>
 
@@ -161,9 +161,9 @@
           </div>
 
           <div class="card mb-3">
-            <div class="card-header">请求数据</div>
+            <div class="card-header">列出已存在于区块链当中的数据方Metadata的文件Hash信息</div>
             <div class="card-body">
-             <form >
+             <!-- <form >
               <div class="form-group">
                 <div class="form-label-group">
                   <input name="ask_from" type="text" id="ask_from" class="form-control" required="required" autofocus="autofocus" >
@@ -185,14 +185,14 @@
                 </div>
 
 
-              </div>
+              </div> -->
 
-              <button id="AskData" class="btn btn-primary btn-block" type="button">Submit</button>
+              <button id="getDataArrayButton" class="btn btn-primary btn-block" type="button">Submit</button>
              </form>
           </div>
         </div>
 
-        <div class="card mb-3">
+        <!-- <div class="card mb-3">
             <div class="card-header">Create Contract</div>
             <div class="card-body">
              <form >
@@ -206,13 +206,13 @@
               <button id="CreateContract" class="btn btn-primary btn-block" type="button">Submit</button>
              </form>
           </div>
-        </div>
+        </div> -->
 
 
 
 
-		<div class="card mb-3">
-            <div class="card-header">上传模型资源</div>
+		<!-- <div class="card mb-3">
+            <div class="card-header">上传加密的模型文件Hash至选定的数据方</div>
             <div class="card-body">
               <form >
                 <div class="form-group">
@@ -268,7 +268,7 @@
               </form>
             </div>
           </div>
-
+ -->
 
 
 
@@ -333,17 +333,17 @@
       window.location.href =interfaceAddress+ url;
     }
       $(function() {
-          $("#AskData").on('click', function() {  //添加点击事件
-              console.log("click AskData ok");
+          $("#getDataArrayButton").on('click', function() {  //添加点击事件
+              console.log("click getDataArrayButton ok");
               $.ajax({
-                  url:interfaceAddress+'/modelclient/askdata',
-                  type:'post',
+                  url:interfaceAddress+'/modelclient/getdataarray',
+                  type:'get',
                   dataType : 'text',
-                  data: "password="+$('#ask_password').val()+"&from="+$('#ask_from').val()+"&metaDataInfo="+$('#ask_hash').val(),
+                  data: "",
                   success : function(data){
-                      console.log(data);
-                      var jsonObj = $.parseJSON(data)
-                      alert(jsonObj.msg);
+                      alert(data);
+                      // var jsonObj = $.parseJSON(data)
+                      // alert(jsonObj);
                   },
                   fail : function (data) {
                       console.log(data);

@@ -60,7 +60,7 @@
       $("#CreateBtn").on('click', function() {  //添加点击事件
               console.log("click CreateBtn ok");
               $.ajax({
-                  url:interfaceAddress+'/user/createwallet',
+                  url:interfaceAddress+'/users/createwallet',
                   type:'post',
                   dataType : 'text', // use json instead of text
                   data: "password="+$('#inputPassword').val(),

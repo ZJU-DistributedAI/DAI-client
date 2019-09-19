@@ -130,11 +130,11 @@
                 <a class="dropdown-item"  onclick="doLocation('/user/createwalletpage')">Create Wallet</a>
                 <div class="dropdown-divider"></div>
                 <h6 class="dropdown-header">Functions:</h6>
-                <a class="dropdown-item" onclick="doLocation('/dataclient/adddata')">Add Data</a>
-                <a class="dropdown-item" onclick="doLocation('/dataclient/walletpage')">Agree Request</a>
+                <a class="dropdown-item" onclick="doLocation('/dataclient/walletpage')">Add Data</a>
+                <!-- <a class="dropdown-item" onclick="doLocation('/dataclient/walletpage')">Agree Request</a>
                 <a class="dropdown-item" onclick="doLocation('/dataclient/walletpage')">Ask Computing</a>
-                <a class="dropdown-item" onclick="doLocation('/dataclient/walletpage')">Delete Data</a>
-                <a class="dropdown-item" onclick="doLocation('/dataclient/walletpageç')">Upload Encrypted Data</a>
+                <a class="dropdown-item" onclick="doLocation('/dataclient/walletpage')">Delete Data</a> -->
+                <a class="dropdown-item" onclick="doLocation('/dataclient/walletpage')">Upload Encrypted Data</a>
             </div>
         </li>
       </ul>
@@ -170,7 +170,7 @@
             </div>
 
           <div class="card mb-3">
-            <div class="card-header">添加数据的metadata</div>
+            <div class="card-header">上传Metadata文件Hash至区块链</div>
             <div class="card-body">
              <form>
               <div class="form-group">
@@ -180,12 +180,12 @@
 
                   </div>
                   </br>
-                  <div class="form-label-group">
+                  <!-- <div class="form-label-group">
                       <input name="add_password" type="text" id="add_password" class="form-control" required="required" autofocus="autofocus" >
                       <label for="add_password">password: 数据方钱包密码</label>
 
                   </div>
-                  </br>
+                  </br> -->
                 <div class="form-label-group">
                    <input name="add_hash" type="text" id="add_hash" class="form-control" required="required" autofocus="autofocus" >
                   <label for="add_hash">hash: 需要添加的数据资源metadata的IPFShash</label>
@@ -198,7 +198,10 @@
           </div>
         </div>
 
-        <div class="card mb-3">
+          
+        
+
+        <!-- <div class="card mb-3">
             <div class="card-header">同意模型方对数据的请求</div>
             <div class="card-body">
              <form >
@@ -263,12 +266,12 @@
               <button id= "AskComputing"  class="btn btn-primary btn-block" type="button">Submit</button>
              </form>
           </div>
-        </div>
+        </div> -->
 
 
 
         <div class="card mb-3">
-            <div class="card-header">删除数据</div>
+            <div class="card-header">获取收到的模型文件Hash信息</div>
             <div class="card-body">
              <form >
               <div class="form-group">
@@ -279,7 +282,7 @@
                   </div>
                   </br>
 
-                  <div class="form-label-group">
+                  <!-- <div class="form-label-group">
                       <input name="del_password" type="text" id="del_password" class="form-control" required="required" autofocus="autofocus" >
                       <label for="del_password">password: 数据方钱包密码</label>
 
@@ -289,16 +292,16 @@
                   <div class="form-label-group">
                       <input name="del_hash" type="text" id="del_hash" class="form-control" required="required" autofocus="autofocus" >
                       <label for="del_hash">hash: 需要删除的数据资源的IPFShash</label>
-                  </div>
+                  </div> -->
 
               </div>
 
-              <button id= "DeleteData" class="btn btn-primary btn-block" type="button">Submit</button>
+              <button id= "getRecvModelButton" class="btn btn-primary btn-block" type="button">Submit</button>
              </form>
           </div>
-        </div>
+        </div> 
 
-        <div class="card mb-3">
+        <!-- <div class="card mb-3">
             <div class="card-header">上传加密后的数据给模型方</div>
             <div class="card-body">
                 <form >
@@ -334,7 +337,7 @@
                     <button  id= "UploadEncryptedData"  class="btn btn-primary btn-block" type="button">Submit</button>
                 </form>
             </div>
-        </div>
+        </div> -->
 
 
 
@@ -403,15 +406,15 @@
           $("#AddDataForm").on('click', function() {  //添加点击事件
               console.log("click AddData ok");
               $.ajax({
-                  url:interfaceAddress+'/dataclient/addmetadata',
+                  url:interfaceAddress+'/dataclient/senddata',
                   type:'post',
                   dataType : 'text', // use json instead of text
 
-                  data: "password="+$('#add_password').val()+"&from="+$('#add_from').val()+"&metaDataIpfsHash="+$('#add_hash').val(),
+                  data: "from="+$('#add_from').val()+"&metaDataIpfsHash="+$('#add_hash').val(),
                   success : function(data){
                       console.log(data);
                       var jsonObj = $.parseJSON(data)
-                      alert(jsonObj.msg);
+                      alert(jsonObj.msg.transactionHash);
                   },
                   fail : function (data) {
                       console.log(data);// for name use data.data.name
@@ -420,54 +423,54 @@
               });
           });
 
-          $("#AgreeRequest").on('click', function() {  //添加点击事件
-              console.log("click AgreeRequest ok");
-              $.ajax({
-                  url:interfaceAddress + '/dataclient/aggreemodelclient',
-                  type:'post',
-                  dataType : 'text',
-                  data: "password="+$('#agree_password').val()+"&from="+$('#agree_from').val()+
-                      "&metaDataIpfsHash="+$('#agree_data_hash').val()+ "&modelAddress="+$('#agree_to').val(),
-                  success : function(data){
-                      console.log(data);
-                      var jsonObj = $.parseJSON(data)
-                      alert(jsonObj.msg);
-                  },
-                  fail : function (data) {
-                      console.log(data);
-                      alert("请求失败");
-                  }
-              });
-          });
+          // $("#AgreeRequest").on('click', function() {  //添加点击事件
+          //     console.log("click AgreeRequest ok");
+          //     $.ajax({
+          //         url:interfaceAddress + '/dataclient/aggreemodelclient',
+          //         type:'post',
+          //         dataType : 'text',
+          //         data: "password="+$('#agree_password').val()+"&from="+$('#agree_from').val()+
+          //             "&metaDataIpfsHash="+$('#agree_data_hash').val()+ "&modelAddress="+$('#agree_to').val(),
+          //         success : function(data){
+          //             console.log(data);
+          //             var jsonObj = $.parseJSON(data)
+          //             alert(jsonObj.msg);
+          //         },
+          //         fail : function (data) {
+          //             console.log(data);
+          //             alert("请求失败");
+          //         }
+          //     });
+          // });
 
-          $("#AskComputing").on('click', function() {  //添加点击事件
-              console.log("click AskComputing ok");
-              $.ajax({
-                  url:interfaceAddress+'/dataclient/askcomputing',
-                  type:'post',
-                  dataType : 'text',
-                  data: "password="+$('#askcomputing_password').val()+"&from="+$('#askcomputing_from').val()
-                      +"&computingHash="+$('#askcomputing_hash').val()+ "&modelAddress="+$('#askcomputing_to').val(),
-                  success : function(data){
-                      console.log(data);
-                      var jsonObj = $.parseJSON(data)
-                      alert(jsonObj.msg);
-                  },
-                  fail : function (data) {
-                      console.log(data);
-                      alert("请求失败");
-                  }
-              });
-          });
+          // $("#AskComputing").on('click', function() {  //添加点击事件
+          //     console.log("click AskComputing ok");
+          //     $.ajax({
+          //         url:interfaceAddress+'/dataclient/askcomputing',
+          //         type:'post',
+          //         dataType : 'text',
+          //         data: "password="+$('#askcomputing_password').val()+"&from="+$('#askcomputing_from').val()
+          //             +"&computingHash="+$('#askcomputing_hash').val()+ "&modelAddress="+$('#askcomputing_to').val(),
+          //         success : function(data){
+          //             console.log(data);
+          //             var jsonObj = $.parseJSON(data)
+          //             alert(jsonObj.msg);
+          //         },
+          //         fail : function (data) {
+          //             console.log(data);
+          //             alert("请求失败");
+          //         }
+          //     });
+          // });
 
 
-          $("#DeleteData").on('click', function() {  //添加点击事件
-              console.log("click DeleteData ok");
+          $("#getRecvModelButton").on('click', function() {  //添加点击事件
+              console.log("click getRecvModelButton ok");
               $.ajax({
-                  url:interfaceAddress+'/dataclient/deletedata',
-                  type:'post',
+                  url:interfaceAddress+'/dataclient/getrecvmodel',
+                  type:'get',
                   dataType : 'text',
-                  data: "password="+$('#del_password').val()+"&from="+$('#del_from').val()+"&metaDataIpfsHash="+$('#del_hash').val(),
+                  data: "from="+$('#del_from').val(),
                   success : function(data){
                       console.log(data);//
                       var jsonObj = $.parseJSON(data)
@@ -479,6 +482,8 @@
                   }
               });
           });
+
+          
           $("#UploadEncryptedData").on('click', function() {  //添加点击事件
               console.log("click UploadEncryptedData ok");
               $.ajax({
