@@ -8,7 +8,7 @@ var Web3 = require('web3')
 global.web3 = new Web3(new Web3.providers.HttpProvider(ethereumConfig.config.url))
 var abi = [
 	{
-		"constant": false,
+		"constant": true,
 		"inputs": [
 			{
 				"name": "_from",
@@ -33,11 +33,11 @@ var abi = [
 			}
 		],
 		"payable": false,
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
-		"constant": false,
+		"constant": true,
 		"inputs": [
 			{
 				"name": "_from",
@@ -49,15 +49,23 @@ var abi = [
 			{
 				"components": [
 					{
-						"name": "owner",
+						"name": "_from",
 						"type": "address"
 					},
 					{
-						"name": "lhash",
+						"name": "mlhash",
 						"type": "bytes"
 					},
 					{
-						"name": "rhash",
+						"name": "mrhash",
+						"type": "bytes"
+					},
+					{
+						"name": "dlhash",
+						"type": "bytes"
+					},
+					{
+						"name": "drhash",
 						"type": "bytes"
 					}
 				],
@@ -65,6 +73,40 @@ var abi = [
 				"type": "tuple[]"
 			}
 		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"name": "mlhash",
+				"type": "bytes"
+			},
+			{
+				"name": "mrhash",
+				"type": "bytes"
+			},
+			{
+				"name": "dlhash",
+				"type": "bytes"
+			},
+			{
+				"name": "drhash",
+				"type": "bytes"
+			}
+		],
+		"name": "sendModel",
+		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -90,35 +132,9 @@ var abi = [
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_from",
-				"type": "address"
-			},
-			{
-				"name": "_to",
-				"type": "address"
-			},
-			{
-				"name": "_lhash",
-				"type": "bytes"
-			},
-			{
-				"name": "_rhash",
-				"type": "bytes"
-			}
-		],
-		"name": "sendModel",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
 	}
 ]
-var contractAddress = "0x2032202d2c45ffda25dd3b1a4abd61a0693868df"
+var contractAddress = "0x33a976dfdcbdb113116760de8a65afeed62ce48c"
 global.contract = new web3.eth.Contract(abi, contractAddress)
 global.adminAddress = "0x660fa64006cd9d478ef864e5b38920ef34987ada"
 global.adminPassword = "abc"

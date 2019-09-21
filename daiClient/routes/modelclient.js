@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var multer = require('multer')
-var upload = multer({dest: 'uploadmodeltmp/'})
+var uploadmodel = multer({dest: 'uploadmodeltmp/'})
 var utils = require("./utils.js")
 
 function completeRes(msg, code){
@@ -27,16 +27,18 @@ router.get('/availabledatapage', function(req, res, next) {
 
 
 // 上传metadata文件至ipfs
-router.post('/uploadfile', upload.single('file'), function(req, res) {
+router.post('/uploadfile', uploadmodel.single('file'), function(req, res) {
 
     var response = null;
-    var data = fs.readFileSync(req.file.path)
-    promise = ipfs.files.add(data).then(function(resp){
+    var data = global.fs.readFileSync(req.file.path)
+    console.log(data);
+    promise = global.ipfs.files.add(data).then(function(resp){
         console.log(resp);
         response = completeRes(resp[0].hash, 200);
         res.end(response);
     }).catch(function(err){
         response = completeRes("上传至ipfs失败", 500);
+        console.log(err);
         res.end(response);
     });
     // // console.log(result)
@@ -69,7 +71,7 @@ router.get('/getdataarray', function(req, res){
                     if(number == result.length){
                         console.log(total);
                         response = completeRes(total, 200);
-                        // res.end(response);
+                        // // res.end(response);
                         res.end(response);
                     }
                  })
@@ -80,6 +82,36 @@ router.get('/getdataarray', function(req, res){
    });
 
 });
+
+router.post('/sendmodel', function(req, res){
+
+    var from = req.body['model_address'];
+    var to = req.body['model_data_address'];
+    var modelIpfsHash = req.body['model_hash'];
+    var dataIpfsHash = req.body['model_data_hash'];
+
+    if(from === undefined || from === ''|| to===undefined|| to===''||
+        modelIpfsHash ===undefined|| modelIpfsHash ===''|| dataIpfsHash ===undefined|| dataIpfsHash ==='') {
+        response = completeRes("参数不完全", 201);
+        res.end(response);
+    }
+    var modelHashHex = global.web3.utils.toHex(modelIpfsHash);
+    var dataHashHex = global.web3.utils.toHex(dataIpfsHash);
+    var mlhash = modelHashHex.substring(0, modelHashHex.length/2);
+    var mrhash = "0x"+modelHashHex.substring(modelHashHex.length/2, modelHashHex.length);
+    var dlhash = dataHashHex.substring(0, dataHashHex.length/2);
+    var drhash = "0x"+dataHashHex.substring(dataHashHex.length/2, dataHashHex.length);
+    global.web3.eth.personal.unlockAccount(global.adminAddress, global.adminPassword).then(function(){
+        global.contract.methods.sendModel(to, from, mlhash, mrhash, dlhash, drhash).send({from: global.adminAddress, gas:0x271000, gasPrice:0x09184e72a000}).on('receipt', function(receipt){
+            var response = completeRes(receipt.transactionHash);
+            res.end(response);
+        })
+
+    });
+});
+
+
+
 
 
 

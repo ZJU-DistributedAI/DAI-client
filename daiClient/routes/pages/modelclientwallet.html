@@ -192,21 +192,38 @@
           </div>
         </div>
 
-        <!-- <div class="card mb-3">
-            <div class="card-header">Create Contract</div>
+        <div class="card mb-3">
+            <div class="card-header">传递模型Hash给指定的数据方</div>
             <div class="card-body">
-             <form >
-              <div class="form-group">
-                <div class="form-label-group">
-                  <input name="CreateContract_password" type="text" id="CreateContract_password" class="form-control" required="required" autofocus="autofocus" >
-                  <label for="CreateContract_password">password: 模型方的钱包密码 </label>
-                </div>
+             <form>
+              <div class="form-label-group">
+                <input name="model_address" type="text" id="model_address" class="form-control" required="required" autofocus="autofocus" >
+                <label for="model_address">wallet: 自己的钱包地址 </label>
 
               </div>
-              <button id="CreateContract" class="btn btn-primary btn-block" type="button">Submit</button>
+              </br>
+
+              <div class="form-label-group">
+                <input name="model_data_hash" type="text" id="model_data_hash" class="form-control" required="required" autofocus="autofocus" >
+                <label for="model_data_hash">metadata: 选定的metadata的IPFS HASH值</label>
+
+              </div>
+              </br>
+              <div class="form-label-group">
+                <input name="model_data_address" type="text" id="model_data_address" class="form-control" required="required" autofocus="autofocus" >
+                <label for="model_data_address">address: 所选择的数据所属的数据方钱包地址</label>
+              </div>
+            </br>
+
+              <div class="form-label-group">
+                <input name="model_hash" type="text" id="model_hash" class="form-control" required="required" autofocus="autofocus" >
+                <label for="model_hash">model: 输入自己要传的模型IPFS HASH值</label>
+              </div>
+            </br>
+              <button id="SendModel" class="btn btn-primary btn-block" type="button">Submit</button>
              </form>
           </div>
-        </div> -->
+        </div>
 
 
 
@@ -276,13 +293,13 @@
         <!-- /.container-fluid -->
 
         <!-- Sticky Footer -->
-        <footer class="sticky-footer">
+        <!-- <footer class="sticky-footer">
           <div class="container my-auto">
             <div class="copyright text-center my-auto">
               <span>Copyright © Your DistributedAI 2019</span>
             </div>
           </div>
-        </footer>
+        </footer> -->
 
       </div>
       <!-- /.content-wrapper -->
@@ -352,13 +369,13 @@
               });
           });
 
-          $("#CreateContract").on('click', function() {  //添加点击事件
-              console.log("click CreateContract ok");
+          $("#SendModel").on('click', function() {  //添加点击事件
+              console.log("click SendModel ok");
               $.ajax({
-                  url:interfaceAddress+'/modelclient/createcontract',
+                  url:interfaceAddress+'/modelclient/sendmodel',
                   type:'post',
                   dataType : 'text',
-                  data: "password="+$('#CreateContract_password').val(),
+                  data: "model_address="+$('#model_address').val()+"&model_data_hash="+$('#model_data_hash').val()+"&model_data_address="+$('#model_data_address').val()+"&model_hash="+$('#model_hash').val(),
                   success : function(data){
                       console.log(data);
                       var jsonObj = $.parseJSON(data)
@@ -436,9 +453,9 @@
             console.log("click upload file ok");
             var file_obj = document.getElementById('uploadFileId').files[0];
             var fd = new FormData();
-            fd.append('uploadfile', file_obj);
+            fd.append('file', file_obj);
             $.ajax({
-              url:getIpfsAddres()+'/dataclient/uploadfile',
+              url:getIpfsAddres()+'/modelclient/uploadfile',
               type: 'post',
               data: fd,
               processData:false,

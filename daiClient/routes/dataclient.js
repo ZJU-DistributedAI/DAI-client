@@ -1,10 +1,10 @@
 var express = require('express');
-
-
+var path = require('path')
+var stream  = require('stream')
 var multer = require('multer')
 var router = express.Router();
-var upload = multer({dest: 'uploaddatatmp/'})
-
+var uploaddata = multer({dest: 'uploaddatatmp/'})
+var utils = require('./utils.js')
 function completeRes(msg, code){
     var response = {
         msg: msg,
@@ -41,15 +41,17 @@ router.get('/modelaskingpage', function(req, res, next) {
 
 
 // 上传metadata文件至ipfs
-router.post('/uploadfile', upload.single('file'), function(req, res) {
+router.post('/uploadfile', uploaddata.single('file'), function(req, res) {
 
     var response = null;
     var data = global.fs.readFileSync(req.file.path)
+    
     promise = global.ipfs.files.add(data).then(function(resp){
         console.log(resp);
         response = completeRes(resp[0].hash, 200);
         res.end(response);
     }).catch(function(err){
+        console.log(err)
         response = completeRes("上传至ipfs失败", 500);
         res.end(response);
     });
@@ -58,8 +60,37 @@ router.post('/uploadfile', upload.single('file'), function(req, res) {
     
 });
 
-router.post('/sendData', function(req, res){
+router.get('/downloadfile', function(req, res){
 
+    var file_hash = req.query['file_hash']
+    console.log("要下载的模型Hash: "+file_hash)
+    var downloadPath = path.resolve(__dirname, "../downloadfiles/");
+    global.ipfs.files.get(file_hash, function(err, files){
+        var file = files[0];
+        // files.forEach(file => {
+        //  
+        // });  
+        console.log(downloadPath) 
+        fs.writeFileSync(downloadPath+'\\'+file.path, file.content);
+        res.download(downloadPath+'\\'+file.path, function(err){
+            if(err){
+                console.log(err);
+            }
+        })
+        
+        // console.log(files)
+        // response = completeRes(resp[0].hash, 200);
+        // res.end(response);
+    })
+    // .catch(function(err){
+    //     console.log(err)
+    //     response = completeRes("下载文件失败", 500);
+    //     res.end(response);
+    // });
+    
+});
+
+router.post('/sendData', function(req, res){
     
     var from = req.body['from'];
     var metaDataIpfsHash = req.body['metaDataIpfsHash'];
@@ -84,14 +115,27 @@ router.post('/sendData', function(req, res){
 
 router.get('/getrecvmodel', function(req, res){
 
-    var from = req.body['from'];
-    if(from===undefine || from===''){
+    var from = req.query['from'];
+    console.log(from)
+    if(from===undefined || from===''){
         response = completeRes("参数不完全", 201);
         res.end(response);
     }
+    var total = {}
     global.web3.eth.personal.unlockAccount(global.adminAddress, global.adminPassword).then(function(){
         global.contract.methods.getRecvModels(from).call(null, function(err, result){
-           response = completeRes(result, 200);
+            for(var i=0;i<result.length;i++){
+                if(total[result[i]._from] === undefined){
+                    total[result[i]._from] = [];
+                }
+                var modelHexHash = produceHashHex(handleHex(result[i].mlhash), handleHex(result[i].mrhash));
+                var modelIpfsHash = global.web3.utils.hexToAscii(modelHexHash);
+                var dataHexHash = produceHashHex(handleHex(result[i].dlhash), handleHex(result[i].drhash))
+                var dataIpfsHash =  global.web3.utils.hexToAscii(dataHexHash)               
+                total[result[i]._from].push({'modelIpfsHash: ': modelIpfsHash, 'dataIpfsHash: ': dataIpfsHash});
+            }
+            console.log(total)
+           response = completeRes(total, 200);
            res.send(response);
         })
    });

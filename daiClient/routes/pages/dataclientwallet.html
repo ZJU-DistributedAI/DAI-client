@@ -169,6 +169,20 @@
                 </div>
             </div>
 
+            <div class="card mb-3">
+              <div class="card-header">从IPFS获取文件</div>
+              <div class="card-body">
+                  <from>
+
+                    <input name="download_file" type="text" id="download_file" class="form-control" required="required" autofocus="autofocus" >
+
+                  </from>
+                  <br>
+                  <button id= "download_file_btn" class="btn btn-primary btn-block" type="button">Download File</button>
+              </div>
+          </div>
+
+
           <div class="card mb-3">
             <div class="card-header">上传Metadata文件Hash至区块链</div>
             <div class="card-body">
@@ -293,11 +307,15 @@
                       <input name="del_hash" type="text" id="del_hash" class="form-control" required="required" autofocus="autofocus" >
                       <label for="del_hash">hash: 需要删除的数据资源的IPFShash</label>
                   </div> -->
+                  <div>
 
-              </div>
+             
 
               <button id= "getRecvModelButton" class="btn btn-primary btn-block" type="button">Submit</button>
              </form>
+            </div> 
+             <p id="display_model_data"></p>
+            </div>
           </div>
         </div> 
 
@@ -402,6 +420,28 @@
       {
           window.location.href =interfaceAddress+ url;
       }
+
+      function syntaxHighlight(json) {
+          if (typeof json != 'string') {
+              json = JSON.stringify(json, undefined, 2);
+          }
+          json = json.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
+          return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
+              var cls = 'number';
+              if (/^"/.test(match)) {
+                  if (/:$/.test(match)) {
+                      cls = 'key';
+                  } else {
+                      cls = 'string';
+                  }
+              } else if (/true|false/.test(match)) {
+                  cls = 'boolean';
+              } else if (/null/.test(match)) {
+                  cls = 'null';
+              }
+            return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
       $(function() {
           $("#AddDataForm").on('click', function() {  //添加点击事件
               console.log("click AddData ok");
@@ -422,6 +462,28 @@
                   }
               });
           });
+          
+          $("#download_file_btn").on('click', function() {  //添加点击事件
+              console.log("click download ok");
+              top.location.href = interfaceAddress+'/dataclient/downloadfile?'+"file_hash="+$('#download_file').val();
+
+              // $.ajax({
+              //     url:interfaceAddress+'/dataclient/downloadfile&'+"file_hash="+$('#download_file').val(),
+              //     type:'get',
+              //     // dataType : 'text', // use json instead of text
+
+              //     data: "file_hash="+$('#download_file').val(),
+              //     success : function(data){
+                
+
+              //     },
+              //     fail : function (data) {
+              //         console.log(data);// for name use data.data.name
+              //         alert("请求失败");
+              //     }
+              // });
+          });
+
 
           // $("#AgreeRequest").on('click', function() {  //添加点击事件
           //     console.log("click AgreeRequest ok");
@@ -473,8 +535,9 @@
                   data: "from="+$('#del_from').val(),
                   success : function(data){
                       console.log(data);//
-                      var jsonObj = $.parseJSON(data)
-                      alert(jsonObj.msg);
+                      //var jsonObj = $.parseJSON(data)
+                      //alert(jsonObj.msg);
+                      $("#display_model_data").html(syntaxHighlight(data));
                   },
                   fail : function (data) {
                       console.log(data);//
