@@ -1,4 +1,5 @@
 var express = require('express');
+var path = require('path')
 var router = express.Router();
 var multer = require('multer')
 var uploadmodel = multer({dest: 'uploadmodeltmp/'})
@@ -127,6 +128,25 @@ router.get('/getmodelresult', function(req, res){
 });
 
 
+
+router.get('/downloadfile', function(req, res){
+
+    var file_hash = req.query['file_hash']
+    console.log("要下载的模型Hash: "+file_hash)
+    var downloadPath = path.resolve(__dirname, "../downloadfiles/");
+    global.ipfs.files.get(file_hash, function(err, files){
+        var file = files[0]; 
+        console.log(downloadPath) 
+        fs.writeFileSync(downloadPath+'\\'+file.path, file.content);
+        res.download(downloadPath+'\\'+file.path, function(err){
+            if(err){
+                console.log(err);
+            }
+        })
+    })
+    
+    
+});
 
 
 

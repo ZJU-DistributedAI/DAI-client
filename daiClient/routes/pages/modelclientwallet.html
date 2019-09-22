@@ -248,6 +248,20 @@
         </div>
       </div> 
 
+      <div class="card mb-3">
+        <div class="card-header">从IPFS中下载模型训练好的模型文件</div>
+        <div class="card-body">
+            <from>
+
+              <input name="download_file" type="text" id="download_file" class="form-control" required="required" autofocus="autofocus" >
+
+            </from>
+            <br>
+            <button id= "download_file_btn" class="btn btn-primary btn-block" type="button">Download Trained Model </button>
+        </div>
+        
+    </div>
+
 	
 
         <!-- /.container-fluid -->
@@ -388,6 +402,12 @@
                   }
               });
           });
+
+          $("#download_file_btn").on('click', function() {  //添加点击事件
+              console.log("click download ok");
+              top.location.href = interfaceAddress+'/modelclient/downloadfile?'+"file_hash="+$('#download_file').val();
+          });
+
 
         $("#param").on('click', function() {  //添加点击事件
           console.log("click CreateContract ok");
