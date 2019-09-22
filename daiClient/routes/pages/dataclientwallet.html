@@ -157,7 +157,7 @@
           <p>Manage your wallet.</p>
 
             <div class="card mb-3">
-                <div class="card-header">上传Metedata文件至IPFS</div>
+                <div class="card-header">上传Metedata文件或者本地训练完成的模型文件至IPFS</div>
                 <div class="card-body">
                     <FORM>
 
@@ -167,10 +167,12 @@
 
                     </FORM>
                 </div>
+                <p id="display_metadata_ipfs_hash"></p>
+
             </div>
 
             <div class="card mb-3">
-              <div class="card-header">从IPFS获取文件</div>
+              <div class="card-header">从IPFS中下载模型文件并训练</div>
               <div class="card-body">
                   <from>
 
@@ -178,8 +180,9 @@
 
                   </from>
                   <br>
-                  <button id= "download_file_btn" class="btn btn-primary btn-block" type="button">Download File</button>
+                  <button id= "download_file_btn" class="btn btn-primary btn-block" type="button">Download Model File And Train</button>
               </div>
+              
           </div>
 
 
@@ -210,79 +213,8 @@
               <button id= "AddDataForm" class="btn btn-primary btn-block" type="button">Submit</button>
              </form>
           </div>
+          <p id="display_transaction_hash"></p>
         </div>
-
-          
-        
-
-        <!-- <div class="card mb-3">
-            <div class="card-header">同意模型方对数据的请求</div>
-            <div class="card-body">
-             <form >
-              <div class="form-group">
-                  <div class="form-label-group">
-                      <input name="agree_from" type="text" id="agree_from" class="form-control" required="required" autofocus="autofocus" >
-                      <label for="agree_from">wallet: 数据方钱包地址 </label>
-
-                  </div>
-                 </br>
-                  <div class="form-label-group">
-                      <input name="agree_password" type="text" id="agree_password" class="form-control" required="required" autofocus="autofocus" >
-                      <label for="agree_password">password: 数据方钱包密码</label>
-
-                  </div>
-                  </br>
-                <div class="form-label-group">
-                   <input name="agree_data_hash" type="text" id="agree_data_hash" class="form-control" required="required" autofocus="autofocus" >
-                  <label for="agree_data_hash">hash: 需要同意的数据资源的IPFShash</label>
-                </div>
-                  <div class="form-label-group">
-                      <input name="agree_to" type="text" id="agree_to" class="form-control" required="required" autofocus="autofocus" >
-                      <label for="agree_to">wallet: 需要同意请求的模型方钱包地址</label>
-
-                  </div>
-                  </br>
-              </div>
-              <button  id= "AgreeRequest"  class="btn btn-primary btn-block" type="button">Submit</button>
-             </form>
-          </div>
-        </div>
-
-
-        <div class="card mb-3">
-            <div class="card-header">请求运算资源</div>
-            <div class="card-body">
-             <form >
-              <div class="form-group">
-                  <div class="form-label-group">
-                      <input name="askcomputing_from" type="text" id="askcomputing_from" class="form-control" required="required" autofocus="autofocus" >
-                      <label for="askcomputing_from">wallet: 数据方钱包地址 </label>
-
-                  </div>
-                  </br>
-                  <div class="form-label-group">
-                      <input name="askcomputing_password" type="text" id="askcomputing_password" class="form-control" required="required" autofocus="autofocus" >
-                      <label for="askcomputing_password">password: 数据方钱包密码</label>
-
-                  </div>
-                  </br>
-                  <div class="form-label-group">
-                      <input name="askcomputing_hash" type="text" id="askcomputing_hash" class="form-control" required="required" autofocus="autofocus" >
-                      <label for="askcomputing_hash">computing hash: 所请求的运算方资源的IPFShash </label>
-                  </div>
-                  </br>
-                  <div class="form-label-group">
-                      <input name="askcomputing_to" type="text" id="askcomputing_to" class="form-control" required="required" autofocus="autofocus" >
-                      <label for="askcomputing_to">model client wallet: 模型方的钱包地址 </label>
-                  </div>
-              </div>
-
-              <button id= "AskComputing"  class="btn btn-primary btn-block" type="button">Submit</button>
-             </form>
-          </div>
-        </div> -->
-
-
 
         <div class="card mb-3">
             <div class="card-header">获取收到的模型文件Hash信息</div>
@@ -293,24 +225,9 @@
                       <input name="del_from" type="text" id="del_from" class="form-control" required="required" autofocus="autofocus" >
                       <label for="del_from">wallet: 数据方钱包地址 </label>
 
-                  </div>
-                  </br>
-
-                  <!-- <div class="form-label-group">
-                      <input name="del_password" type="text" id="del_password" class="form-control" required="required" autofocus="autofocus" >
-                      <label for="del_password">password: 数据方钱包密码</label>
-
-                  </div>
-                  </br>
-
-                  <div class="form-label-group">
-                      <input name="del_hash" type="text" id="del_hash" class="form-control" required="required" autofocus="autofocus" >
-                      <label for="del_hash">hash: 需要删除的数据资源的IPFShash</label>
-                  </div> -->
-                  <div>
-
-             
-
+                  </div>     
+              </div>
+            <br>
               <button id= "getRecvModelButton" class="btn btn-primary btn-block" type="button">Submit</button>
              </form>
             </div> 
@@ -319,44 +236,35 @@
           </div>
         </div> 
 
-        <!-- <div class="card mb-3">
-            <div class="card-header">上传加密后的数据给模型方</div>
-            <div class="card-body">
-                <form >
-                    <div class="form-group">
-                        <div class="form-label-group">
-                            <input name="upload_from" type="text" id="upload_from" class="form-control" required="required" autofocus="autofocus" >
-                            <label for="upload_from">wallet: 数据方钱包地址 </label>
-                        </div>
 
-                        </br>
-                        <div class="form-label-group">
-                            <input name="upload_password" type="text" id="upload_password" class="form-control" required="required" autofocus="autofocus" >
-                            <label for="upload_password">password: 数据方钱包密码</label>
-                        </div>
-                        </br>
-                        <div class="form-label-group">
-                            <input name="upload_metadata_hash" type="text" id="upload_metadata_hash" class="form-control" required="required" autofocus="autofocus" >
-                            <label for="upload_metadata_hash">data_metadata_hash: 数据metadata的IPFShash</label>
-                        </div>
+        <div class="card mb-3">
+          <div class="card-header">上传本地训练完成的模型文件Hash至区块链</div>
+          <div class="card-body">
+           <form>
+            <div class="form-group">
+                <div class="form-label-group">
+                    <input name="model_result_from" type="text" id="model_result_from" class="form-control" required="required" autofocus="autofocus" >
+                    <label for="model_result_from">wallet: 数据方钱包地址 </label>
 
-                        </br>
-                        <div class="form-label-group">
-                            <input name="upload_encrypt_data_hash" type="text" id="upload_encrypt_data_hash" class="form-control" required="required" autofocus="autofocus" >
-                            <label for="upload_encrypt_data_hash">encrypt_data_hash: 加密后的数据的IPFShash</label>
-                        </div>
-                        </br>
-                        <div class="form-label-group">
-                            <input name="upload_to" type="text" id="upload_to" class="form-control" required="required" autofocus="autofocus" >
-                            <label for="upload_to">model client wallet: 模型方的钱包地址</label>
-                        </div>
-                    </div>
+                </div>
+                </br>
+                <div class="form-label-group">
+                  <input name="model_result_to" type="text" id="model_result_to" class="form-control" required="required" autofocus="autofocus" >
+                  <label for="model_result_to">wallet: 模型方钱包地址 </label>
 
-                    <button  id= "UploadEncryptedData"  class="btn btn-primary btn-block" type="button">Submit</button>
-                </form>
-            </div>
-        </div> -->
-
+              </div>
+              <br>
+              <div class="form-label-group">
+                <input name="model_hash" type="text" id="model_hash" class="form-control" required="required" autofocus="autofocus" >
+                <label for="mdoel_hash">hash: 训练完成模型文件的IPFS Hash</label>
+              </div>
+              <br>
+            <button id= "AddModelResult" class="btn btn-primary btn-block" type="button">Submit</button>
+           </form>
+           <div> <p id="display_model_result_transaction_hash"></p></div>
+        </div>
+      </div>
+    </div>
 
 
 
@@ -454,11 +362,33 @@
                   success : function(data){
                       console.log(data);
                       var jsonObj = $.parseJSON(data)
-                      alert(jsonObj.msg.transactionHash);
+                      $("#display_transaction_hash").html(jsonObj.msg.transactionHash)
+                      // alert(jsonObj.msg.transactionHash);
                   },
                   fail : function (data) {
                       console.log(data);// for name use data.data.name
-                      alert("请求失败");
+                      $("#display_transaction_hash").html("含有Metadata文件Hash的交易Hash: "+jsonObj.msg.transactionHash)
+                  }
+              });
+          });
+
+          $("#AddModelResult").on('click', function() {  //添加点击事件
+              console.log("click AddModelResult ok");
+              $.ajax({
+                  url:interfaceAddress+'/dataclient/sendmodelresult',
+                  type:'post',
+                  dataType : 'text', // use json instead of text
+
+                  data: "from="+$('#model_result_from').val()+"&model_hash="+$('#model_hash').val()+"&to="+$('#model_result_to').val(),
+                  success : function(data){
+                      console.log(data);
+                      var jsonObj = $.parseJSON(data)
+                      $("#display_model_result_transaction_hash").html("含有训练完成的模型文件Hash的交易Hash: "+jsonObj.msg.transactionHash)
+                      // alert(jsonObj.msg.transactionHash);
+                  },
+                  fail : function (data) {
+                      console.log(data);// for name use data.data.name
+                     
                   }
               });
           });
@@ -466,64 +396,7 @@
           $("#download_file_btn").on('click', function() {  //添加点击事件
               console.log("click download ok");
               top.location.href = interfaceAddress+'/dataclient/downloadfile?'+"file_hash="+$('#download_file').val();
-
-              // $.ajax({
-              //     url:interfaceAddress+'/dataclient/downloadfile&'+"file_hash="+$('#download_file').val(),
-              //     type:'get',
-              //     // dataType : 'text', // use json instead of text
-
-              //     data: "file_hash="+$('#download_file').val(),
-              //     success : function(data){
-                
-
-              //     },
-              //     fail : function (data) {
-              //         console.log(data);// for name use data.data.name
-              //         alert("请求失败");
-              //     }
-              // });
           });
-
-
-          // $("#AgreeRequest").on('click', function() {  //添加点击事件
-          //     console.log("click AgreeRequest ok");
-          //     $.ajax({
-          //         url:interfaceAddress + '/dataclient/aggreemodelclient',
-          //         type:'post',
-          //         dataType : 'text',
-          //         data: "password="+$('#agree_password').val()+"&from="+$('#agree_from').val()+
-          //             "&metaDataIpfsHash="+$('#agree_data_hash').val()+ "&modelAddress="+$('#agree_to').val(),
-          //         success : function(data){
-          //             console.log(data);
-          //             var jsonObj = $.parseJSON(data)
-          //             alert(jsonObj.msg);
-          //         },
-          //         fail : function (data) {
-          //             console.log(data);
-          //             alert("请求失败");
-          //         }
-          //     });
-          // });
-
-          // $("#AskComputing").on('click', function() {  //添加点击事件
-          //     console.log("click AskComputing ok");
-          //     $.ajax({
-          //         url:interfaceAddress+'/dataclient/askcomputing',
-          //         type:'post',
-          //         dataType : 'text',
-          //         data: "password="+$('#askcomputing_password').val()+"&from="+$('#askcomputing_from').val()
-          //             +"&computingHash="+$('#askcomputing_hash').val()+ "&modelAddress="+$('#askcomputing_to').val(),
-          //         success : function(data){
-          //             console.log(data);
-          //             var jsonObj = $.parseJSON(data)
-          //             alert(jsonObj.msg);
-          //         },
-          //         fail : function (data) {
-          //             console.log(data);
-          //             alert("请求失败");
-          //         }
-          //     });
-          // });
 
 
           $("#getRecvModelButton").on('click', function() {  //添加点击事件
@@ -535,9 +408,9 @@
                   data: "from="+$('#del_from').val(),
                   success : function(data){
                       console.log(data);//
-                      //var jsonObj = $.parseJSON(data)
+                      var jsonObj = $.parseJSON(data)
                       //alert(jsonObj.msg);
-                      $("#display_model_data").html(syntaxHighlight(data));
+                      $("#display_model_data").html(syntaxHighlight(jsonObj.msg));
                   },
                   fail : function (data) {
                       console.log(data);//
@@ -547,26 +420,6 @@
           });
 
           
-          $("#UploadEncryptedData").on('click', function() {  //添加点击事件
-              console.log("click UploadEncryptedData ok");
-              $.ajax({
-                  url:interfaceAddress+'/dataclient/pushdatatocomputing',
-                  type:'post',
-                  dataType : 'text',
-                  data: "from="+$('#upload_from').val()+"&password="+$('#upload_password').val()
-                      + "&dataIpfsHash="+$('#upload_encrypt_data_hash').val()+"&modelAddress="+$('#upload_to').val()
-                        +"&dataMetadataIpfsHash="+$('#upload_metadata_hash').val(),
-                  success : function(data){
-                      console.log(data);//
-                      var jsonObj = $.parseJSON(data);
-                      alert(jsonObj.msg);
-                  },
-                  fail : function (data) {
-                      console.log(data);//
-                      alert("请求失败");
-                  }
-              });
-          });
           $("#upload_btn").on('click', function () {
               console.log("click upload file ok");
               var file_obj = document.getElementById('uploadFileId').files[0];
@@ -581,7 +434,8 @@
                   success : function(data) {
                       console.log(data);//
                       var jsonObj = $.parseJSON(data);
-                      alert(jsonObj.msg);
+                      //alert(jsonObj.msg);
+                      $("#display_metadata_ipfs_hash").html("Metadata Ipfs Hash: "+jsonObj.msg);
                   }
               });
               return false;

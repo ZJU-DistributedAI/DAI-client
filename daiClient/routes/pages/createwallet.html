@@ -67,7 +67,7 @@
                   success : function(data){
                       console.log(data);
                       var jsonObj = $.parseJSON(data);
-                      alert("address: " + jsonObj.msg.address + "\nprivate key:" + jsonObj.msg.privateKey);
+                      alert("address: " + jsonObj.msg);
                   },
                   fail : function (data) {
                       console.log(data);//

@@ -52,32 +52,21 @@ router.post('/uploadfile', uploadmodel.single('file'), function(req, res) {
 router.get('/getdataarray', function(req, res){
 
     global.web3.eth.personal.unlockAccount(global.adminAddress, global.adminPassword).then(function(){
-        global.web3.eth.getAccounts().then(function(result){
-            var total = {};
-            var number = 0;
-            for(var i=0; i<result.length; i++){
-                var address = result[i];
-                global.contract.methods.getDataArray(address).call(null, function(err, result2){
-
-                    if(result2.length != 0){
-                        total[address] = [];
-                        for(var j=0; j<result2.length; j++){
-                            var hexHash = produceHashHex(handleHex(result2[j].lhash), handleHex(result2[j].rhash));
-                            var dataIpfsHash = global.web3.utils.hexToAscii(hexHash); 
-                            total[address].push(dataIpfsHash);
-                        }
-                    }
-                    number++;
-                    if(number == result.length){
-                        console.log(total);
-                        response = completeRes(total, 200);
-                        // // res.end(response);
-                        res.end(response);
-                    }
-                 })
+        global.contract.methods.getDataArray().call(null, function(err, result){
+            total = {}
+            for(var i=0;i<result.length;i++){
+                if(total[result[i]._from] === undefined){
+                    total[result[i]._from] = [];
+                }
+                var hexHash = produceHashHex(handleHex(result[i].lhash), handleHex(result[i].rhash));
+                var metadataHash = global.web3.utils.hexToAscii(hexHash);
+                total[result[i]._from].push(metadataHash);
             }
-          
-        })
+            response = completeRes(total, 200);
+            // // res.end(response);
+            res.end(response);
+           
+         })
         
    });
 
@@ -111,6 +100,31 @@ router.post('/sendmodel', function(req, res){
 });
 
 
+router.get('/getmodelresult', function(req, res){
+
+    var from = req.query['model_result_address']
+    global.web3.eth.personal.unlockAccount(global.adminAddress, global.adminPassword).then(function(){
+       
+        global.contract.methods.getRecvModelResults(from).call(null, function(err, result){
+
+            var total = {};
+            if(result.length != 0){  
+                for(var i=0; i<result.length; i++){
+                    total[result[i]._from] = [];
+                    var hexHash = produceHashHex(handleHex(result[i].mlhash), handleHex(result[i].mrhash));
+                    var modelResultHash = global.web3.utils.hexToAscii(hexHash); 
+                    total[result[i]._from].push(modelResultHash);
+                }
+            }
+            console.log(total);
+            response = completeRes(total, 200);
+            res.end(response);
+            
+        })
+        
+   });
+
+});
 
 
 

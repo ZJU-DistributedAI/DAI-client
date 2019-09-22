@@ -104,13 +104,37 @@ router.post('/sendData', function(req, res){
     var lhash = metadataHash.substring(0, metadataHash.length/2);
     var rhash = "0x"+metadataHash.substring(metadataHash.length/2, metadataHash.length);
     global.web3.eth.personal.unlockAccount(global.adminAddress, global.adminPassword).then(function(){
-         global.contract.methods.storeMetadata(lhash, rhash, from).send({from: global.adminAddress}).on('receipt', function(confirmationNumber, receipt){
+        console.log("from: "+from);
+         global.contract.methods.storeMetadata(lhash, rhash, from).send({from: global.adminAddress, gas:0x271000, gasPrice:0x09184e72a000}).on('receipt', function(confirmationNumber, receipt){
             response = completeRes(confirmationNumber, 200);
             res.send(response);
          })
     });
 
 });
+
+
+router.post('/sendmodelresult', function(req, res){
+
+    var from = req.body['from'];
+    var to = req.body['to'];
+    var modelResultHash = req.body['model_hash'];
+    if(modelResultHash===undefined|| modelResultHash===''||
+        from ===undefined|| from ==='' || to ===undefined|| to ==='') {
+        response = completeRes("参数不完全", 201);
+        res.end(response);
+    }
+    var modelResultHashHex = web3.utils.toHex(modelResultHash);
+    var lhash = modelResultHashHex.substring(0, modelResultHashHex.length/2);
+    var rhash = "0x"+modelResultHashHex.substring(modelResultHashHex.length/2, modelResultHashHex.length);
+    global.web3.eth.personal.unlockAccount(global.adminAddress, global.adminPassword).then(function(){
+         global.contract.methods.sendModelResult(to, from, lhash, rhash).send({from: global.adminAddress, gas:0x271000, gasPrice:0x09184e72a000}).on('receipt', function(confirmationNumber, receipt){
+            response = completeRes(confirmationNumber, 200);
+            res.send(response);
+         })
+    });
+
+})
 
 
 router.get('/getrecvmodel', function(req, res){

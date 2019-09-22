@@ -1,6 +1,13 @@
 var express = require('express');
 var router = express.Router();
 
+function completeRes(msg, code){
+  var response = {
+      msg: msg,
+      code: code,
+  };
+  return JSON.stringify(response);
+}
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');

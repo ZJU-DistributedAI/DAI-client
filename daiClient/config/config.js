@@ -8,32 +8,29 @@ var Web3 = require('web3')
 global.web3 = new Web3(new Web3.providers.HttpProvider(ethereumConfig.config.url))
 var abi = [
 	{
-		"constant": true,
+		"constant": false,
 		"inputs": [
+			{
+				"name": "_to",
+				"type": "address"
+			},
 			{
 				"name": "_from",
 				"type": "address"
-			}
-		],
-		"name": "getDataArray",
-		"outputs": [
+			},
 			{
-				"components": [
-					{
-						"name": "lhash",
-						"type": "bytes"
-					},
-					{
-						"name": "rhash",
-						"type": "bytes"
-					}
-				],
-				"name": "_hashes",
-				"type": "tuple[]"
+				"name": "mlhash",
+				"type": "bytes"
+			},
+			{
+				"name": "mrhash",
+				"type": "bytes"
 			}
 		],
+		"name": "sendModelResult",
+		"outputs": [],
 		"payable": false,
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -70,6 +67,67 @@ var abi = [
 					}
 				],
 				"name": "_models",
+				"type": "tuple[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_from",
+				"type": "address"
+			}
+		],
+		"name": "getRecvModelResults",
+		"outputs": [
+			{
+				"components": [
+					{
+						"name": "_from",
+						"type": "address"
+					},
+					{
+						"name": "mlhash",
+						"type": "bytes"
+					},
+					{
+						"name": "mrhash",
+						"type": "bytes"
+					}
+				],
+				"name": "_modelResults",
+				"type": "tuple[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getDataArray",
+		"outputs": [
+			{
+				"components": [
+					{
+						"name": "_from",
+						"type": "address"
+					},
+					{
+						"name": "lhash",
+						"type": "bytes"
+					},
+					{
+						"name": "rhash",
+						"type": "bytes"
+					}
+				],
+				"name": "_hashes",
 				"type": "tuple[]"
 			}
 		],
@@ -134,7 +192,7 @@ var abi = [
 		"type": "function"
 	}
 ]
-var contractAddress = "0x33a976dfdcbdb113116760de8a65afeed62ce48c"
+var contractAddress = "0x44d739521a3aaaa69884f06f00d0aa2b86d61110"
 global.contract = new web3.eth.Contract(abi, contractAddress)
 global.adminAddress = "0x660fa64006cd9d478ef864e5b38920ef34987ada"
 global.adminPassword = "abc"

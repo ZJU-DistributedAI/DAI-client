@@ -158,6 +158,7 @@
 
               </FORM>
             </div>
+            <p id="display_model_ipfs_hash"></p>
           </div>
 
           <div class="card mb-3">
@@ -190,6 +191,7 @@
               <button id="getDataArrayButton" class="btn btn-primary btn-block" type="button">Submit</button>
              </form>
           </div>
+          <p id="display_metadata_hash"></p>
         </div>
 
         <div class="card mb-3">
@@ -223,72 +225,30 @@
               <button id="SendModel" class="btn btn-primary btn-block" type="button">Submit</button>
              </form>
           </div>
+          <p id="display_transaction_hash"></p>
         </div>
 
 
-
-
-		<!-- <div class="card mb-3">
-            <div class="card-header">上传加密的模型文件Hash至选定的数据方</div>
-            <div class="card-body">
-              <form >
-                <div class="form-group">
-                  <div class="form-label-group">
-                    <input name="upload_from" type="text" id="upload_from" class="form-control" required="required" autofocus="autofocus" >
-                    <label for="upload_from">wallet: 模型方的钱包地址 </label>
-
-                  </div>
-                  </br>
-
-                  <div class="form-label-group">
-                    <input name="upload_password" type="text" id="upload_password" class="form-control" required="required" autofocus="autofocus" >
-                    <label for="upload_password">password: 模型方的钱包密码 </label>
-                  </div>
-
-                  </br>
-
-                  <div class="form-label-group">
-                    <input name="upload_model_hash" type="text" id="upload_model_hash" class="form-control" required="required" autofocus="autofocus" >
-                    <label for="upload_model_hash">model_hash: 存储加密后模型的IPFShash</label>
-                  </div>
-                  </br>
-
-                  <div class="form-label-group">
-                    <input name="upload_contract_hash" type="text" id="upload_contract_hash" class="form-control" required="required" autofocus="autofocus" >
-                    <label for="upload_contract_hash">contract_hash: 此次交易的智能合约地址</label>
-                  </div>
-
-
-                </div>
-
-                <button id="UploadModel" class="btn btn-primary btn-block" type="button">Submit</button>
-              </form>
+        <div class="card mb-3">
+          <div class="card-header">获取收到的训练好的模型结果Hash信息</div>
+          <div class="card-body">
+           <form >
+            <div class="form-group">
+                <div class="form-label-group">
+                    <input name="model_result_address" type="text" id="model_result_address" class="form-control" required="required" autofocus="autofocus" >
+                    <label for="model_result_address">wallet: 模型方钱包地址 </label>
+                </div>     
             </div>
+          <br>
+            <button id= "getRecvModelResultButton" class="btn btn-primary btn-block" type="button">Submit</button>
+           </form>
+          </div> 
+           <p id="display_model_result_hash"></p>
           </div>
+        </div>
+      </div> 
 
-
-          <div class="card mb-3">
-            <div class="card-header">获取运算方的参数</div>
-            <div class="card-body">
-              <form >
-                <div class="form-group">
-
-
-                  <div class="form-label-group">
-                    <input name="modeladdress" type="text" id="modeladdress" class="form-control" required="required" autofocus="autofocus" >
-                    <label for="param_password">modeladdress: 模型方的地址 </label>
-                  </div>
-
-                </div>
-
-                <button id="param" class="btn btn-primary btn-block" type="button">Submit</button>
-              </form>
-            </div>
-          </div>
- -->
-
-
-
+	
 
         <!-- /.container-fluid -->
 
@@ -349,6 +309,27 @@
     {
       window.location.href =interfaceAddress+ url;
     }
+    function syntaxHighlight(json) {
+          if (typeof json != 'string') {
+              json = JSON.stringify(json, undefined, 2);
+          }
+          json = json.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
+          return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
+              var cls = 'number';
+              if (/^"/.test(match)) {
+                  if (/:$/.test(match)) {
+                      cls = 'key';
+                  } else {
+                      cls = 'string';
+                  }
+              } else if (/true|false/.test(match)) {
+                  cls = 'boolean';
+              } else if (/null/.test(match)) {
+                  cls = 'null';
+              }
+            return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
       $(function() {
           $("#getDataArrayButton").on('click', function() {  //添加点击事件
               console.log("click getDataArrayButton ok");
@@ -358,9 +339,8 @@
                   dataType : 'text',
                   data: "",
                   success : function(data){
-                      alert(data);
-                      // var jsonObj = $.parseJSON(data)
-                      // alert(jsonObj);
+                      var jsonObj = $.parseJSON(data)
+                      $("#display_metadata_hash").html(syntaxHighlight(jsonObj.msg))
                   },
                   fail : function (data) {
                       console.log(data);
@@ -379,7 +359,8 @@
                   success : function(data){
                       console.log(data);
                       var jsonObj = $.parseJSON(data)
-                      alert(jsonObj.msg);
+                      //alert(jsonObj.msg);
+                      $("#display_transaction_hash").html("模型Hash所在的交易Hash："+jsonObj.msg)
                   },
                   fail : function (data) {
                       console.log(data);
@@ -388,6 +369,25 @@
               });
           });
 
+          $("#getRecvModelResultButton").on('click', function() {  //添加点击事件
+              console.log("click SendModel ok");
+              $.ajax({
+                  url:interfaceAddress+'/modelclient/getmodelresult',
+                  type:'get',
+                  dataType : 'text',
+                  data: "model_result_address="+$('#model_result_address').val(),
+                  success : function(data){
+                      console.log(data);
+                      var jsonObj = $.parseJSON(data)
+                      //alert(jsonObj.msg);
+                      $("#display_model_result_hash").html("模型方收到的训练好的模型结果Hash："+syntaxHighlight(jsonObj.msg))
+                  },
+                  fail : function (data) {
+                      console.log(data);
+                      alert("请求失败");
+                  }
+              });
+          });
 
         $("#param").on('click', function() {  //添加点击事件
           console.log("click CreateContract ok");
@@ -463,7 +463,8 @@
               success : function(data) {
                 console.log(data);//
                 var jsonObj = $.parseJSON(data);
-                alert(jsonObj.msg);
+                //alert(jsonObj.msg);
+                $("#display_model_ipfs_hash").html("Model Ipfs Hash: "+jsonObj.msg)
               }
             });
             return false;
