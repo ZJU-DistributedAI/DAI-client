@@ -1,3 +1,5 @@
+var path = require("path")
+var readline = require('readline');
 var ipfsAPI = require('ipfs-api')
 global.yaml = require('yamljs')
 global.ethereumConfig = JSON.parse(JSON.stringify(yaml.load('./config/ethereum-config.yaml'), null))
@@ -196,3 +198,4 @@ var contractAddress = "0x44d739521a3aaaa69884f06f00d0aa2b86d61110"
 global.contract = new web3.eth.Contract(abi, contractAddress)
 global.adminAddress = "0x660fa64006cd9d478ef864e5b38920ef34987ada"
 global.adminPassword = "abc"
+global.linebreak = (process.platform === 'win32') ? '\r\n' : '\n'

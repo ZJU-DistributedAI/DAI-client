@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path')
+var readline = require('readline');
 var stream  = require('stream')
 var multer = require('multer')
 var router = express.Router();
@@ -44,12 +45,28 @@ router.get('/modelaskingpage', function(req, res, next) {
 router.post('/uploadfile', uploaddata.single('file'), function(req, res) {
 
     var response = null;
-    var data = global.fs.readFileSync(req.file.path)
-    
+    var res_path= req.file.path.split('\\')
+    var origin_name = path.join(res_path[0], req.file.originalname);
+    global.fs.rename(req.file.path, origin_name, function(err){
+        if(err){
+            console.log(err);
+        }
+    })
+    console.log(req.file.path);
+    console.log(origin_name);
+    var data = global.fs.readFileSync(origin_name)
     promise = global.ipfs.files.add(data).then(function(resp){
         console.log(resp);
-        response = completeRes(resp[0].hash, 200);
-        res.end(response);
+        var name_map_path = path.resolve(__dirname, "../nameipfshashmap");
+        global.fs.appendFile(name_map_path, req.file.originalname+","+resp[0].hash+global.linebreak,function(err){
+            if(err){
+                console.log(err);
+            }else{
+                response = completeRes(resp[0].hash, 200);
+                res.end(response);
+            }
+        });
+       
     }).catch(function(err){
         console.log(err)
         response = completeRes("上传至ipfs失败", 500);
@@ -63,30 +80,35 @@ router.post('/uploadfile', uploaddata.single('file'), function(req, res) {
 router.get('/downloadfile', function(req, res){
 
     var file_hash = req.query['file_hash']
-    console.log("要下载的模型Hash: "+file_hash)
+   
     var downloadPath = path.resolve(__dirname, "../downloadfiles/");
+    var filename = null;
+    var name_map_path = path.resolve(__dirname, "../nameipfshashmap");
+    var name_map_stream = global.fs.createReadStream(name_map_path);
+    const rl = readline.createInterface({
+        input: name_map_stream,
+        crlfDelay: Infinity
+    });
+    var filename = null;
+    rl.on('line',(line) => {
+        if(line.indexOf(file_hash) != -1){
+            filename = line.split(",")[0];
+            return;
+        }
+    })
+    
+    console.log("filename: "+filename)
     global.ipfs.files.get(file_hash, function(err, files){
         var file = files[0];
-        // files.forEach(file => {
-        //  
-        // });  
-        console.log(downloadPath) 
-        fs.writeFileSync(downloadPath+'\\'+file.path, file.content);
-        res.download(downloadPath+'\\'+file.path, function(err){
+        console.log("path: "+file.path) 
+        fs.writeFileSync(path.join(downloadPath,filename), file.content);
+        res.download(path.join(downloadPath, filename), function(err){
             if(err){
                 console.log(err);
             }
         })
-        
-        // console.log(files)
-        // response = completeRes(resp[0].hash, 200);
-        // res.end(response);
     })
-    // .catch(function(err){
-    //     console.log(err)
-    //     response = completeRes("下载文件失败", 500);
-    //     res.end(response);
-    // });
+    
     
 });
 
