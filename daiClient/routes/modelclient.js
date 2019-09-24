@@ -26,7 +26,7 @@ router.get('/availabledatapage', function(req, res, next) {
 });
 
 
-
+var hash_name_map = {}
 
 // 上传metadata文件至ipfs
 router.post('/uploadfile', uploadmodel.single('file'), function(req, res) {
@@ -44,15 +44,9 @@ router.post('/uploadfile', uploadmodel.single('file'), function(req, res) {
     var data = global.fs.readFileSync(origin_name)
     promise = global.ipfs.files.add(data).then(function(resp){
         console.log(resp);
-        var name_map_path = path.resolve(__dirname, "../nameipfshashmap");
-        global.fs.appendFile(name_map_path, req.file.originalname+","+resp[0].hash+global.linebreak,function(err){
-            if(err){
-                console.log(err);
-            }else{
-                response = completeRes(resp[0].hash, 200);
-                res.end(response);
-            }
-        });
+        hash_name_map[resp[0].hash] = req.file.originalname;
+        response = completeRes(resp[0].hash, 200);
+        res.end(response);
        
     }).catch(function(err){
         response = completeRes("上传至ipfs失败", 500);
@@ -76,7 +70,7 @@ router.get('/getdataarray', function(req, res){
                 if(total[result[i]._from] === undefined){
                     total[result[i]._from] = [];
                 }
-                var hexHash = produceHashHex(handleHex(result[i].lhash), handleHex(result[i].rhash));
+                var hexHash = result[i]._dataIpfsHash;
                 var metadataHash = global.web3.utils.hexToAscii(hexHash);
                 total[result[i]._from].push(metadataHash);
             }
@@ -104,12 +98,10 @@ router.post('/sendmodel', function(req, res){
     }
     var modelHashHex = global.web3.utils.toHex(modelIpfsHash);
     var dataHashHex = global.web3.utils.toHex(dataIpfsHash);
-    var mlhash = modelHashHex.substring(0, modelHashHex.length/2);
-    var mrhash = "0x"+modelHashHex.substring(modelHashHex.length/2, modelHashHex.length);
-    var dlhash = dataHashHex.substring(0, dataHashHex.length/2);
-    var drhash = "0x"+dataHashHex.substring(dataHashHex.length/2, dataHashHex.length);
+    var nameHex = global.web3.utils.toHex(hash_name_map[modelIpfsHash]);
+    console.log("nameHex: "+nameHex);
     global.web3.eth.personal.unlockAccount(global.adminAddress, global.adminPassword).then(function(){
-        global.contract.methods.sendModel(to, from, mlhash, mrhash, dlhash, drhash).send({from: global.adminAddress, gas:0x271000, gasPrice:0x09184e72a000}).on('receipt', function(receipt){
+        global.contract.methods.sendModel(to, from, modelHashHex, dataHashHex, nameHex).send({from: global.adminAddress, gas:0x271000, gasPrice:0x09184e72a000}).on('receipt', function(receipt){
             var response = completeRes(receipt.transactionHash);
             res.end(response);
         })
@@ -129,7 +121,7 @@ router.get('/getmodelresult', function(req, res){
             if(result.length != 0){  
                 for(var i=0; i<result.length; i++){
                     total[result[i]._from] = [];
-                    var hexHash = produceHashHex(handleHex(result[i].mlhash), handleHex(result[i].mrhash));
+                    var hexHash = result[i]._modelIpfsHash;
                     var modelResultHash = global.web3.utils.hexToAscii(hexHash); 
                     total[result[i]._from].push(modelResultHash);
                 }
@@ -151,29 +143,23 @@ router.get('/downloadfile', function(req, res){
     var file_hash = req.query['file_hash']
     console.log("要下载的模型Hash: "+file_hash)
     var downloadPath = path.resolve(__dirname, "../downloadfiles/");
-    var name_map_path = path.resolve(__dirname, "../nameipfshashmap");
-    var name_map_stream = global.fs.createReadStream(name_map_path);
-    const rl = readline.createInterface({
-        input: name_map_stream,
-        crlfDelay: Infinity
-    });
-    var filename = null;
-    rl.on('line',(line) => {
-        if(line.indexOf(file_hash) != -1){
-            filename = line.split(",")[0];
-            return;
-        }
-    })
-    global.ipfs.files.get(file_hash, function(err, files){
-        var file = files[0]; 
-        console.log(downloadPath) 
-        fs.writeFileSync(path.join(downloadPath, filename), file.content);
-        res.download(path.join(downloadPath, filename), function(err){
-            if(err){
-                console.log(err);
-            }
+   
+    global.web3.eth.personal.unlockAccount(global.adminAddress, global.adminPassword).then(function(){
+        global.contract.methods.getIpfsHashName(global.web3.utils.toHex(file_hash)).call(null, function(err, result){
+            var filename = global.web3.utils.hexToAscii(result);
+            global.ipfs.files.get(file_hash, function(err, files){
+                var file = files[0]; 
+                console.log(downloadPath) 
+                fs.writeFileSync(path.join(downloadPath, filename), file.content);
+                res.download(path.join(downloadPath, filename), function(err){
+                    if(err){
+                        console.log(err);
+                    }
+                })
+            })
         })
-    })
+   });
+   
     
     
 });

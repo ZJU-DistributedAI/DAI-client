@@ -39,7 +39,7 @@ router.get('/modelaskingpage', function(req, res, next) {
 });
 
 
-
+var hash_name_map = {}
 
 // 上传metadata文件至ipfs
 router.post('/uploadfile', uploaddata.single('file'), function(req, res) {
@@ -57,16 +57,9 @@ router.post('/uploadfile', uploaddata.single('file'), function(req, res) {
     var data = global.fs.readFileSync(origin_name)
     promise = global.ipfs.files.add(data).then(function(resp){
         console.log(resp);
-        var name_map_path = path.resolve(__dirname, "../nameipfshashmap");
-        global.fs.appendFile(name_map_path, req.file.originalname+","+resp[0].hash+global.linebreak,function(err){
-            if(err){
-                console.log(err);
-            }else{
-                response = completeRes(resp[0].hash, 200);
-                res.end(response);
-            }
-        });
-       
+        hash_name_map[resp[0].hash] = req.file.originalname;
+        response = completeRes(resp[0].hash, 200);
+        res.end(response);   
     }).catch(function(err){
         console.log(err)
         response = completeRes("上传至ipfs失败", 500);
@@ -82,32 +75,25 @@ router.get('/downloadfile', function(req, res){
     var file_hash = req.query['file_hash']
    
     var downloadPath = path.resolve(__dirname, "../downloadfiles/");
-    var filename = null;
-    var name_map_path = path.resolve(__dirname, "../nameipfshashmap");
-    var name_map_stream = global.fs.createReadStream(name_map_path);
-    const rl = readline.createInterface({
-        input: name_map_stream,
-        crlfDelay: Infinity
-    });
-    var filename = null;
-    rl.on('line',(line) => {
-        if(line.indexOf(file_hash) != -1){
-            filename = line.split(",")[0];
-            return;
-        }
-    })
     
-    console.log("filename: "+filename)
-    global.ipfs.files.get(file_hash, function(err, files){
-        var file = files[0];
-        console.log("path: "+file.path) 
-        fs.writeFileSync(path.join(downloadPath,filename), file.content);
-        res.download(path.join(downloadPath, filename), function(err){
-            if(err){
-                console.log(err);
-            }
+    global.web3.eth.personal.unlockAccount(global.adminAddress, global.adminPassword).then(function(){
+        global.contract.methods.getIpfsHashName(global.web3.utils.toHex(file_hash)).call(null, function(err, result){
+            var filename = global.web3.utils.hexToAscii(result);
+            global.ipfs.files.get(file_hash, function(err, files){
+                var file = files[0];
+                console.log("path: "+file.path) 
+                fs.writeFileSync(path.join(downloadPath,filename), file.content);
+                res.download(path.join(downloadPath, filename), function(err){
+                    if(err){
+                        console.log(err);
+                    }
+                })
+            })
         })
-    })
+   });
+    
+   
+   
     
     
 });
@@ -123,11 +109,10 @@ router.post('/sendData', function(req, res){
         res.end(response);
     }
     var metadataHash = web3.utils.toHex(metaDataIpfsHash);
-    var lhash = metadataHash.substring(0, metadataHash.length/2);
-    var rhash = "0x"+metadataHash.substring(metadataHash.length/2, metadataHash.length);
+    var nameHex = web3.utils.toHex(hash_name_map[metaDataIpfsHash])
     global.web3.eth.personal.unlockAccount(global.adminAddress, global.adminPassword).then(function(){
         console.log("from: "+from);
-         global.contract.methods.storeMetadata(lhash, rhash, from).send({from: global.adminAddress, gas:0x271000, gasPrice:0x09184e72a000}).on('receipt', function(confirmationNumber, receipt){
+         global.contract.methods.storeMetadata(metadataHash, nameHex, from).send({from: global.adminAddress, gas:0x271000, gasPrice:0x09184e72a000}).on('receipt', function(confirmationNumber, receipt){
             response = completeRes(confirmationNumber, 200);
             res.send(response);
          })
@@ -146,11 +131,10 @@ router.post('/sendmodelresult', function(req, res){
         response = completeRes("参数不完全", 201);
         res.end(response);
     }
-    var modelResultHashHex = web3.utils.toHex(modelResultHash);
-    var lhash = modelResultHashHex.substring(0, modelResultHashHex.length/2);
-    var rhash = "0x"+modelResultHashHex.substring(modelResultHashHex.length/2, modelResultHashHex.length);
+    var modelResultNameHex = global.web3.utils.toHex(hash_name_map[modelResultHash]);
+    var modelResultHashHex = global.web3.utils.toHex(modelResultHash);
     global.web3.eth.personal.unlockAccount(global.adminAddress, global.adminPassword).then(function(){
-         global.contract.methods.sendModelResult(to, from, lhash, rhash).send({from: global.adminAddress, gas:0x271000, gasPrice:0x09184e72a000}).on('receipt', function(confirmationNumber, receipt){
+         global.contract.methods.sendModelResult(to, from, modelResultHashHex, modelResultNameHex).send({from: global.adminAddress, gas:0x271000, gasPrice:0x09184e72a000}).on('receipt', function(confirmationNumber, receipt){
             response = completeRes(confirmationNumber, 200);
             res.send(response);
          })
@@ -174,9 +158,9 @@ router.get('/getrecvmodel', function(req, res){
                 if(total[result[i]._from] === undefined){
                     total[result[i]._from] = [];
                 }
-                var modelHexHash = produceHashHex(handleHex(result[i].mlhash), handleHex(result[i].mrhash));
+                var modelHexHash = result[i]._modelIpfsHash;
                 var modelIpfsHash = global.web3.utils.hexToAscii(modelHexHash);
-                var dataHexHash = produceHashHex(handleHex(result[i].dlhash), handleHex(result[i].drhash))
+                var dataHexHash = result[i]._dataIpfsHash;
                 var dataIpfsHash =  global.web3.utils.hexToAscii(dataHexHash)               
                 total[result[i]._from].push({'modelIpfsHash: ': modelIpfsHash, 'dataIpfsHash: ': dataIpfsHash});
             }

@@ -21,11 +21,11 @@ var abi = [
 				"type": "address"
 			},
 			{
-				"name": "mlhash",
+				"name": "_modelIpfsHash",
 				"type": "bytes"
 			},
 			{
-				"name": "mrhash",
+				"name": "_name",
 				"type": "bytes"
 			}
 		],
@@ -33,6 +33,25 @@ var abi = [
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_ipfshash",
+				"type": "bytes"
+			}
+		],
+		"name": "getIpfsHashName",
+		"outputs": [
+			{
+				"name": "_name",
+				"type": "bytes"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -52,19 +71,11 @@ var abi = [
 						"type": "address"
 					},
 					{
-						"name": "mlhash",
+						"name": "_modelIpfsHash",
 						"type": "bytes"
 					},
 					{
-						"name": "mrhash",
-						"type": "bytes"
-					},
-					{
-						"name": "dlhash",
-						"type": "bytes"
-					},
-					{
-						"name": "drhash",
+						"name": "_dataIpfsHash",
 						"type": "bytes"
 					}
 				],
@@ -93,11 +104,7 @@ var abi = [
 						"type": "address"
 					},
 					{
-						"name": "mlhash",
-						"type": "bytes"
-					},
-					{
-						"name": "mrhash",
+						"name": "_modelIpfsHash",
 						"type": "bytes"
 					}
 				],
@@ -121,11 +128,7 @@ var abi = [
 						"type": "address"
 					},
 					{
-						"name": "lhash",
-						"type": "bytes"
-					},
-					{
-						"name": "rhash",
+						"name": "_dataIpfsHash",
 						"type": "bytes"
 					}
 				],
@@ -149,19 +152,15 @@ var abi = [
 				"type": "address"
 			},
 			{
-				"name": "mlhash",
+				"name": "_modelIpfsHash",
 				"type": "bytes"
 			},
 			{
-				"name": "mrhash",
+				"name": "_dataIpfsHash",
 				"type": "bytes"
 			},
 			{
-				"name": "dlhash",
-				"type": "bytes"
-			},
-			{
-				"name": "drhash",
+				"name": "_name",
 				"type": "bytes"
 			}
 		],
@@ -175,11 +174,11 @@ var abi = [
 		"constant": false,
 		"inputs": [
 			{
-				"name": "_lhash",
+				"name": "_ipfshash",
 				"type": "bytes"
 			},
 			{
-				"name": "_rhash",
+				"name": "_name",
 				"type": "bytes"
 			},
 			{
@@ -194,7 +193,7 @@ var abi = [
 		"type": "function"
 	}
 ]
-var contractAddress = "0x44d739521a3aaaa69884f06f00d0aa2b86d61110"
+var contractAddress = "0xee573af7ac3f1739e6427bf4d09c571ae5df8e45"
 global.contract = new web3.eth.Contract(abi, contractAddress)
 global.adminAddress = "0x660fa64006cd9d478ef864e5b38920ef34987ada"
 global.adminPassword = "abc"
