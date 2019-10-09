@@ -251,16 +251,24 @@
       <div class="card mb-3">
         <div class="card-header">从IPFS中下载Metadata或者模型训练好的模型文件</div>
         <div class="card-body">
-            <from>
+            <form>
 
               <input name="download_file" type="text" id="download_file" class="form-control" required="required" autofocus="autofocus" >
 
-            </from>
+            </form>
             <br>
             <button id= "download_file_btn" class="btn btn-primary btn-block" type="button">Download Trained Model OR Metadata </button>
         </div>
         
     </div>
+
+    <div class="card mb-3">
+      <div class="card-header">进行聚合</div>
+      <div class="card-body">
+          <button id= "polymerization_btn" class="btn btn-primary btn-block" type="button"> Polymerization model </button>
+      </div>
+      
+  </div>
 
 	
 
@@ -488,6 +496,28 @@
               }
             });
             return false;
+          });
+
+          $("#polymerization_btn").on('click', function(){
+            
+            console.log("click polymerization model button ok");
+            // var file_obj = document.getElementById('uploadFileId').files[0];
+            // var fd = new FormData();
+            // fd.append('file', file_obj);
+            $.ajax({
+              url:interfaceAddress+'/modelclient/modelpolymerization',
+              type: 'get',
+              processData:false,
+              contentType: false,
+              success : function(data) {
+                console.log(data);//
+                var jsonObj = $.parseJSON(data);
+                //alert(jsonObj.msg);
+                $("#display_model_ipfs_hash").html("Model Ipfs Hash: "+jsonObj.msg)
+              }
+            });
+            return false;
+
           });
 
 

@@ -3,3 +3,5 @@ uploaddatatmp/
 uploadmodeltmp/
 downloadfiles/
 nameipfshashmap
+FedAvg-mnist-iid/modelresult/
+FedAvg-mnist-iid/modelset/

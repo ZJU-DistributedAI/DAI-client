@@ -5,6 +5,7 @@ var multer = require('multer')
 var readline = require('readline');
 var uploadmodel = multer({dest: 'uploadmodeltmp/'})
 var utils = require("./utils.js")
+var nodecmd = require('node-cmd')
 
 function completeRes(msg, code){
     var response = {
@@ -142,7 +143,7 @@ router.get('/downloadfile', function(req, res){
 
     var file_hash = req.query['file_hash']
     console.log("要下载的模型Hash: "+file_hash)
-    var downloadPath = path.resolve(__dirname, "../downloadfiles/");
+    var downloadPath = path.resolve(__dirname, "../FedAvg-mnist-iid/modelset/");
    
     global.web3.eth.personal.unlockAccount(global.adminAddress, global.adminPassword).then(function(){
         global.contract.methods.getIpfsHashName(global.web3.utils.toHex(file_hash)).call(null, function(err, result){
@@ -161,8 +162,19 @@ router.get('/downloadfile', function(req, res){
    });
    
     
-    
 });
+
+
+router.get('/modelpolymerization', function(req, res){
+
+    nodecmd.get('python ../FedAvg-mnist-iid/modelset/main.py', function(err, data, stderr){
+        console.log(data);
+    });
+
+
+});
+
+
 
 
 
