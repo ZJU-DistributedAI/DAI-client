@@ -1,170 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
+<head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <title>DistributedAI - Model Client</title>
+  <title>DistributedAI - Model Client</title>
 
-    <!-- Bootstrap core CSS-->
-    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap core CSS-->
+  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom fonts for this template-->
-    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <!-- Custom fonts for this template-->
+  <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
-    <!-- Page level plugin CSS-->
-    <link href="/static/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+  <!-- Page level plugin CSS-->
+  <link href="/static/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
 
-    <!-- Custom styles for this template-->
-    <link href="/static/css/sb-admin.css" rel="stylesheet">
-    <script src="/static/js/constant.js"></script>
+  <!-- Custom styles for this template-->
+  <link href="/static/css/sb-admin.css" rel="stylesheet">
+  <script src="/static/js/constant.js"></script>
 
-  </head>
+</head>
 
-  <body id="page-top">
+<body id="page-top">
 
-    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-      <a class="navbar-brand mr-1" href="indexmodel.html">Model Client</a>
+    <a class="navbar-brand mr-1" href="indexmodel.html">Model Client</a>
 
-      <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-        <i class="fas fa-bars"></i>
-      </button>
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+      <i class="fas fa-bars"></i>
+    </button>
 
-      <!-- Navbar Search -->
-      <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-          <div class="input-group-append">
-            <button class="btn btn-primary" type="button">
-              <i class="fas fa-search"></i>
-            </button>
-          </div>
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search for..." aria-label="Search"
+          aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button">
+            <i class="fas fa-search"></i>
+          </button>
         </div>
-      </form>
+      </div>
+    </form>
 
-      <!-- Navbar -->
-      <ul class="navbar-nav ml-auto ml-md-0">
-        <li class="nav-item dropdown no-arrow mx-1">
-          <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-bell fa-fw"></i>
-            <span class="badge badge-danger">9+</span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li>
-        <li class="nav-item dropdown no-arrow mx-1">
-          <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-envelope fa-fw"></i>
-            <span class="badge badge-danger">7</span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li>
-        <li class="nav-item dropdown no-arrow">
-          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-user-circle fa-fw"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-            <a class="dropdown-item" href="#">Settings</a>
-            <a class="dropdown-item" href="#">Activity Log</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
-          </div>
-        </li>
-      </ul>
+    <!-- Navbar -->
+    <ul class="navbar-nav ml-auto ml-md-0">
+      <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-bell fa-fw"></i>
+          <span class="badge badge-danger">9+</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown no-arrow mx-1">
+        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-envelope fa-fw"></i>
+          <span class="badge badge-danger">7</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown no-arrow">
+        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-user-circle fa-fw"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+          <a class="dropdown-item" href="#">Settings</a>
+          <a class="dropdown-item" href="#">Activity Log</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+        </div>
+      </li>
+    </ul>
 
-    </nav>
+  </nav>
 
-    <div id="wrapper">
+  <div id="wrapper">
 
-      <!-- Sidebar -->
-      <ul class="sidebar navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" onclick="doLocation('/modelclient/index')">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span>
-          </a>
-        </li>
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" onclick="doLocation('/modelclient/index')">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
 
-        <li class="nav-item dropdown">
-          <a class="nav-link"  onclick="doLocation('/user/downloadtool')">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Download Tools</span></a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link" onclick="doLocation('/modelclient/availabledatapage')">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Available Data</span></a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="WalletDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Wallet</span>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="WalletDropdown">
-            <h6 class="dropdown-header">Create:</h6>
-            <a class="dropdown-item"  onclick="doLocation('/user/createwalletpage')">Create Wallet</a>
-            <div class="dropdown-divider"></div>
-            <h6 class="dropdown-header">Functions:</h6>
-            <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">list Data</a>
-            <!-- <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Create Contract</a> -->
-            <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Upload Model</a>
-            <!-- <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Upload Result</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link" onclick="doLocation('/user/downloadtool')">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Download Tools</span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" onclick="doLocation('/modelclient/availabledatapage')">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Available Data</span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="WalletDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>Wallet</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="WalletDropdown">
+          <h6 class="dropdown-header">Create:</h6>
+          <a class="dropdown-item" onclick="doLocation('/user/createwalletpage')">Create Wallet</a>
+          <div class="dropdown-divider"></div>
+          <h6 class="dropdown-header">Functions:</h6>
+          <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">list Data</a>
+          <!-- <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Create Contract</a> -->
+          <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Upload Model</a>
+          <!-- <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Upload Result</a>
             <a class="dropdown-item" onclick="doLocation('/modelclient/walletpage')">Get Computing Parameters</a> -->
+        </div>
+      </li>
+
+    </ul>
+
+    <div id="content-wrapper">
+
+      <div class="container-fluid">
+
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a onclick="doLocation('/modelclient/index')">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">Model Client Wallet</li>
+        </ol>
+
+        <!-- Page Content -->
+        <h1>Model Client Wallet</h1>
+        <hr>
+        <p>Manage your wallet.</p>
+
+        <div class="card mb-3">
+          <div class="card-header">上传文件</div>
+          <div class="card-body">
+            <FORM>
+
+              <INPUT NAME="uploadfile" TYPE="file" ID="uploadFileId">
+
+              <INPUT ID="upload_btn" TYPE="submit" VALUE="Upload File">
+
+            </FORM>
           </div>
-        </li>
+          <p id="display_model_ipfs_hash"></p>
+        </div>
 
-      </ul>
-
-      <div id="content-wrapper">
-
-        <div class="container-fluid">
-
-          <!-- Breadcrumbs-->
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <a onclick="doLocation('/modelclient/index')">Dashboard</a>
-            </li>
-            <li class="breadcrumb-item active">Model Client Wallet</li>
-          </ol>
-
-          <!-- Page Content -->
-          <h1>Model Client Wallet</h1>
-          <hr>
-          <p>Manage your wallet.</p>
-
-          <div class="card mb-3">
-            <div class="card-header">上传文件</div>
-            <div class="card-body">
-              <FORM>
-
-                <INPUT NAME="uploadfile" TYPE="file" ID="uploadFileId">
-
-                <INPUT ID="upload_btn" TYPE="submit" VALUE="Upload File">
-
-              </FORM>
-            </div>
-            <p id="display_model_ipfs_hash"></p>
-          </div>
-
-          <div class="card mb-3">
-            <div class="card-header">列出已存在于区块链当中的数据方Metadata的文件Hash信息</div>
-            <div class="card-body">
-             <!-- <form >
+        <div class="card mb-3">
+          <div class="card-header">列出已存在于区块链当中的数据方Metadata的文件Hash信息</div>
+          <div class="card-body">
+            <!-- <form >
               <div class="form-group">
                 <div class="form-label-group">
                   <input name="ask_from" type="text" id="ask_from" class="form-control" required="required" autofocus="autofocus" >
@@ -188,42 +193,46 @@
 
               </div> -->
 
-              <button id="getDataArrayButton" class="btn btn-primary btn-block" type="button">Submit</button>
-             </form>
+            <button id="getDataArrayButton" class="btn btn-primary btn-block" type="button">Submit</button>
+            </form>
           </div>
           <p id="display_metadata_hash"></p>
         </div>
 
         <div class="card mb-3">
-            <div class="card-header">传递模型Hash给指定的数据方</div>
-            <div class="card-body">
-             <form>
+          <div class="card-header">传递模型Hash给指定的数据方</div>
+          <div class="card-body">
+            <form>
               <div class="form-label-group">
-                <input name="model_address" type="text" id="model_address" class="form-control" required="required" autofocus="autofocus" >
+                <input name="model_address" type="text" id="model_address" class="form-control" required="required"
+                  autofocus="autofocus">
                 <label for="model_address">wallet: 自己的钱包地址 </label>
 
               </div>
               </br>
 
               <div class="form-label-group">
-                <input name="model_data_hash" type="text" id="model_data_hash" class="form-control" required="required" autofocus="autofocus" >
+                <input name="model_data_hash" type="text" id="model_data_hash" class="form-control" required="required"
+                  autofocus="autofocus">
                 <label for="model_data_hash">metadata: 选定的metadata的IPFS HASH值</label>
 
               </div>
               </br>
               <div class="form-label-group">
-                <input name="model_data_address" type="text" id="model_data_address" class="form-control" required="required" autofocus="autofocus" >
+                <input name="model_data_address" type="text" id="model_data_address" class="form-control"
+                  required="required" autofocus="autofocus">
                 <label for="model_data_address">address: 所选择的数据所属的数据方钱包地址</label>
               </div>
-            </br>
+              </br>
 
               <div class="form-label-group">
-                <input name="model_hash" type="text" id="model_hash" class="form-control" required="required" autofocus="autofocus" >
+                <input name="model_hash" type="text" id="model_hash" class="form-control" required="required"
+                  autofocus="autofocus">
                 <label for="model_hash">model: 输入自己要传的模型IPFS HASH值</label>
               </div>
-            </br>
+              </br>
               <button id="SendModel" class="btn btn-primary btn-block" type="button">Submit</button>
-             </form>
+            </form>
           </div>
           <p id="display_transaction_hash"></p>
         </div>
@@ -232,50 +241,60 @@
         <div class="card mb-3">
           <div class="card-header">获取收到的训练好的模型结果Hash信息</div>
           <div class="card-body">
-           <form >
-            <div class="form-group">
+            <form>
+              <div class="form-group">
                 <div class="form-label-group">
-                    <input name="model_result_address" type="text" id="model_result_address" class="form-control" required="required" autofocus="autofocus" >
-                    <label for="model_result_address">wallet: 模型方钱包地址 </label>
-                </div>     
-            </div>
-          <br>
-            <button id= "getRecvModelResultButton" class="btn btn-primary btn-block" type="button">Submit</button>
-           </form>
-          </div> 
-           <p id="display_model_result_hash"></p>
+                  <input name="model_result_address" type="text" id="model_result_address" class="form-control"
+                    required="required" autofocus="autofocus">
+                  <label for="model_result_address">wallet: 模型方钱包地址 </label>
+                </div>
+              </div>
+              <br>
+              <button id="getRecvModelResultButton" class="btn btn-primary btn-block" type="button">Submit</button>
+            </form>
           </div>
+          <p id="display_model_result_hash"></p>
         </div>
-      </div> 
+      </div>
 
       <div class="card mb-3">
         <div class="card-header">从IPFS中下载Metadata或者模型训练好的模型文件</div>
         <div class="card-body">
-            <form>
-
-              <input name="download_file" type="text" id="download_file" class="form-control" required="required" autofocus="autofocus" >
-
-            </form>
-            <br>
-            <button id= "download_file_btn" class="btn btn-primary btn-block" type="button">Download Trained Model OR Metadata </button>
+          <form>
+  
+            <input name="download_file" type="text" id="download_file" class="form-control" required="required"
+              autofocus="autofocus">
+  
+          </form>
+          <br>
+          <button id="download_file_btn" class="btn btn-primary btn-block" type="button">Download Trained Model OR
+            Metadata </button>
         </div>
-        
+  
+      </div>
+
+      <div class="card mb-3">
+        <div class="card-header">进行聚合</div>
+        <div class="card-body">
+          <button id="polymerization_btn" class="btn btn-primary btn-block" type="button"> Polymerization model </button>
+        </div>
+  
+      </div>
+
     </div>
 
-    <div class="card mb-3">
-      <div class="card-header">进行聚合</div>
-      <div class="card-body">
-          <button id= "polymerization_btn" class="btn btn-primary btn-block" type="button"> Polymerization model </button>
-      </div>
-      
-  </div>
+    
 
-	
+    
 
-        <!-- /.container-fluid -->
 
-        <!-- Sticky Footer -->
-        <!-- <footer class="sticky-footer">
+
+
+
+    <!-- /.container-fluid -->
+
+    <!-- Sticky Footer -->
+    <!-- <footer class="sticky-footer">
           <div class="container my-auto">
             <div class="copyright text-center my-auto">
               <span>Copyright © Your DistributedAI 2019</span>
@@ -283,246 +302,242 @@
           </div>
         </footer> -->
 
-      </div>
-      <!-- /.content-wrapper -->
+  </div>
+  <!-- /.content-wrapper -->
 
-    </div>
-    <!-- /#wrapper -->
+  </div>
+  <!-- /#wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-      <i class="fas fa-angle-up"></i>
-    </a>
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" onclick="doLocation('/user/login')">Logout</a>
-          </div>
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" onclick="doLocation('/user/login')">Logout</a>
         </div>
       </div>
     </div>
-    </div>
-    <!-- Bootstrap core JavaScript-->
-    <script src="/static/vendor/jquery/jquery.min.js"></script>
-    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  </div>
+  </div>
+  <!-- Bootstrap core JavaScript-->
+  <script src="/static/vendor/jquery/jquery.min.js"></script>
+  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="/static/js/sb-admin.min.js"></script>
+  <!-- Custom scripts for all pages-->
+  <script src="/static/js/sb-admin.min.js"></script>
 
-  </body>
+</body>
 
-  <script type="text/javascript">
-    var interfaceAddress = getAddress();
-    function doLocation(url)
-    {
-      window.location.href =interfaceAddress+ url;
+<script type="text/javascript">
+  var interfaceAddress = getAddress();
+
+  function doLocation(url) {
+    window.location.href = interfaceAddress + url;
+  }
+
+  function syntaxHighlight(json) {
+    if (typeof json != 'string') {
+      json = JSON.stringify(json, undefined, 2);
     }
-    function syntaxHighlight(json) {
-          if (typeof json != 'string') {
-              json = JSON.stringify(json, undefined, 2);
+    json = json.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
+    return json.replace(
+      /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+      function (match) {
+        var cls = 'number';
+        if (/^"/.test(match)) {
+          if (/:$/.test(match)) {
+            cls = 'key';
+          } else {
+            cls = 'string';
           }
-          json = json.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
-          return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
-              var cls = 'number';
-              if (/^"/.test(match)) {
-                  if (/:$/.test(match)) {
-                      cls = 'key';
-                  } else {
-                      cls = 'string';
-                  }
-              } else if (/true|false/.test(match)) {
-                  cls = 'boolean';
-              } else if (/null/.test(match)) {
-                  cls = 'null';
-              }
-            return '<span class="' + cls + '">' + match + '</span>';
-            });
+        } else if (/true|false/.test(match)) {
+          cls = 'boolean';
+        } else if (/null/.test(match)) {
+          cls = 'null';
         }
-      $(function() {
-          $("#getDataArrayButton").on('click', function() {  //添加点击事件
-              console.log("click getDataArrayButton ok");
-              $.ajax({
-                  url:interfaceAddress+'/modelclient/getdataarray',
-                  type:'get',
-                  dataType : 'text',
-                  data: "",
-                  success : function(data){
-                      var jsonObj = $.parseJSON(data)
-                      $("#display_metadata_hash").html(syntaxHighlight(jsonObj.msg))
-                  },
-                  fail : function (data) {
-                      console.log(data);
-                      alert("请求失败");
-                  }
-              });
-          });
+        return '<span class="' + cls + '">' + match + '</span>';
+      });
+  }
+  $(function () {
+    $("#getDataArrayButton").on('click', function () { //添加点击事件
+      console.log("click getDataArrayButton ok");
+      $.ajax({
+        url: interfaceAddress + '/modelclient/getdataarray',
+        type: 'get',
+        dataType: 'text',
+        data: "",
+        success: function (data) {
+          var jsonObj = $.parseJSON(data)
+          $("#display_metadata_hash").html(syntaxHighlight(jsonObj.msg))
+        },
+        fail: function (data) {
+          console.log(data);
+          alert("请求失败");
+        }
+      });
+    });
 
-          $("#SendModel").on('click', function() {  //添加点击事件
-              console.log("click SendModel ok");
-              $.ajax({
-                  url:interfaceAddress+'/modelclient/sendmodel',
-                  type:'post',
-                  dataType : 'text',
-                  data: "model_address="+$('#model_address').val()+"&model_data_hash="+$('#model_data_hash').val()+"&model_data_address="+$('#model_data_address').val()+"&model_hash="+$('#model_hash').val(),
-                  success : function(data){
-                      console.log(data);
-                      var jsonObj = $.parseJSON(data)
-                      //alert(jsonObj.msg);
-                      $("#display_transaction_hash").html("模型Hash所在的交易Hash："+jsonObj.msg)
-                  },
-                  fail : function (data) {
-                      console.log(data);
-                      alert("请求失败");
-                  }
-              });
-          });
+    $("#SendModel").on('click', function () { //添加点击事件
+      console.log("click SendModel ok");
+      $.ajax({
+        url: interfaceAddress + '/modelclient/sendmodel',
+        type: 'post',
+        dataType: 'text',
+        data: "model_address=" + $('#model_address').val() + "&model_data_hash=" + $('#model_data_hash')
+          .val() + "&model_data_address=" + $('#model_data_address').val() + "&model_hash=" + $(
+            '#model_hash').val(),
+        success: function (data) {
+          console.log(data);
+          var jsonObj = $.parseJSON(data)
+          //alert(jsonObj.msg);
+          $("#display_transaction_hash").html("模型Hash所在的交易Hash：" + jsonObj.msg)
+        },
+        fail: function (data) {
+          console.log(data);
+          alert("请求失败");
+        }
+      });
+    });
 
-          $("#getRecvModelResultButton").on('click', function() {  //添加点击事件
-              console.log("click SendModel ok");
-              $.ajax({
-                  url:interfaceAddress+'/modelclient/getmodelresult',
-                  type:'get',
-                  dataType : 'text',
-                  data: "model_result_address="+$('#model_result_address').val(),
-                  success : function(data){
-                      console.log(data);
-                      var jsonObj = $.parseJSON(data)
-                      //alert(jsonObj.msg);
-                      $("#display_model_result_hash").html("模型方收到的训练好的模型结果Hash："+syntaxHighlight(jsonObj.msg))
-                  },
-                  fail : function (data) {
-                      console.log(data);
-                      alert("请求失败");
-                  }
-              });
-          });
+    $("#getRecvModelResultButton").on('click', function () { //添加点击事件
+      console.log("click SendModel ok");
+      $.ajax({
+        url: interfaceAddress + '/modelclient/getmodelresult',
+        type: 'get',
+        dataType: 'text',
+        data: "model_result_address=" + $('#model_result_address').val(),
+        success: function (data) {
+          console.log(data);
+          var jsonObj = $.parseJSON(data)
+          //alert(jsonObj.msg);
+          $("#display_model_result_hash").html("模型方收到的训练好的模型结果Hash：" + syntaxHighlight(jsonObj.msg))
+        },
+        fail: function (data) {
+          console.log(data);
+          alert("请求失败");
+        }
+      });
+    });
 
-          $("#download_file_btn").on('click', function() {  //添加点击事件
-              console.log("click download ok");
-              top.location.href = interfaceAddress+'/modelclient/downloadfile?'+"file_hash="+$('#download_file').val();
-          });
-
-
-        $("#param").on('click', function() {  //添加点击事件
-          console.log("click CreateContract ok");
-          $.ajax({
-            url:interfaceAddress+'/modelclient/monitorparameter',
-            type:'post',
-            dataType : 'text',
-            data: "modeladdress="+$('#modeladdress').val(),
-            success : function(data){
-              console.log(data);
-              var jsonObj = $.parseJSON(data)
-              alert(jsonObj.msg);
-            },
-            fail : function (data) {
-              console.log(data);
-              alert("请求失败");
-            }
-          });
-        });
+    $("#download_file_btn").on('click', function () { //添加点击事件
+      console.log("click download ok");
+      top.location.href = interfaceAddress + '/modelclient/downloadfile?' + "file_hash=" + $('#download_file')
+        .val();
+    });
 
 
-          $("#UploadModel").on('click', function() {  //添加点击事件
-              console.log("click UploadModel ok");
-              $.ajax({
-                  url:interfaceAddress+'/modelclient/uploadmodel',
-                  type:'post',
-                  dataType : 'text',
-                  data: "password="+$('#upload_password').val()+"&from="+$('#upload_from').val()+
-                          "&modelIpfsHash="+$('#upload_model_hash').val()+"&contractHash="+$('#upload_contract_hash').val() ,
-                  success : function(data){
-                      console.log(data);
-                      var jsonObj = $.parseJSON(data)
-                      alert(jsonObj.msg);
-                  },
-                  fail : function (data) {
-                      console.log(data);
-                      alert("请求失败");
-                  }
-              });
-          });
-
-          $("#UploadResult").on('click', function() {  //添加点击事件
-              console.log("click UploadResult ok");
-              $.ajax({
-                  url:'http://127.0.0.1:3000/modelclient/UploadResult',
-                  type:'post',
-                  dataType : 'text',
-                  data: "ETH_key="+$('#uploadFinal_ETH_key').val()+"&hash="+$('#uploadFinal_hash').val()+
-                      "&rsa_key="+$('#uploadFinal_rsa_key').val()+  "&trans_id="+$('#uploadFinal_trans_id').val(),
-                  success : function(data){
-                      console.log(data);
-                      var jsonObj = $.parseJSON(data)
-                      alert(jsonObj.msg);
-                  },
-                  fail : function (data) {
-                      console.log(data);
-                      alert("请求失败");
-                  }
-              });
-          });
-
-          $("#upload_btn").on('click', function () {
-            console.log("click upload file ok");
-            var file_obj = document.getElementById('uploadFileId').files[0];
-            var fd = new FormData();
-            fd.append('file', file_obj);
-            $.ajax({
-              url:getIpfsAddres()+'/modelclient/uploadfile',
-              type: 'post',
-              data: fd,
-              processData:false,
-              contentType: false,
-              success : function(data) {
-                console.log(data);//
-                var jsonObj = $.parseJSON(data);
-                //alert(jsonObj.msg);
-                $("#display_model_ipfs_hash").html("Model Ipfs Hash: "+jsonObj.msg)
-              }
-            });
-            return false;
-          });
-
-          $("#polymerization_btn").on('click', function(){
-            
-            console.log("click polymerization model button ok");
-            // var file_obj = document.getElementById('uploadFileId').files[0];
-            // var fd = new FormData();
-            // fd.append('file', file_obj);
-            $.ajax({
-              url:interfaceAddress+'/modelclient/modelpolymerization',
-              type: 'get',
-              processData:false,
-              contentType: false,
-              success : function(data) {
-                console.log(data);//
-                var jsonObj = $.parseJSON(data);
-                //alert(jsonObj.msg);
-                $("#display_model_ipfs_hash").html("Model Ipfs Hash: "+jsonObj.msg)
-              }
-            });
-            return false;
-
-          });
+    $("#param").on('click', function () { //添加点击事件
+      console.log("click CreateContract ok");
+      $.ajax({
+        url: interfaceAddress + '/modelclient/monitorparameter',
+        type: 'post',
+        dataType: 'text',
+        data: "modeladdress=" + $('#modeladdress').val(),
+        success: function (data) {
+          console.log(data);
+          var jsonObj = $.parseJSON(data)
+          alert(jsonObj.msg);
+        },
+        fail: function (data) {
+          console.log(data);
+          alert("请求失败");
+        }
+      });
+    });
 
 
-      })
-  </script>
+    $("#UploadModel").on('click', function () { //添加点击事件
+      console.log("click UploadModel ok");
+      $.ajax({
+        url: interfaceAddress + '/modelclient/uploadmodel',
+        type: 'post',
+        dataType: 'text',
+        data: "password=" + $('#upload_password').val() + "&from=" + $('#upload_from').val() +
+          "&modelIpfsHash=" + $('#upload_model_hash').val() + "&contractHash=" + $('#upload_contract_hash')
+          .val(),
+        success: function (data) {
+          console.log(data);
+          var jsonObj = $.parseJSON(data)
+          alert(jsonObj.msg);
+        },
+        fail: function (data) {
+          console.log(data);
+          alert("请求失败");
+        }
+      });
+    });
+
+    $("#UploadResult").on('click', function () { //添加点击事件
+      console.log("click UploadResult ok");
+      $.ajax({
+        url: 'http://127.0.0.1:3000/modelclient/UploadResult',
+        type: 'post',
+        dataType: 'text',
+        data: "ETH_key=" + $('#uploadFinal_ETH_key').val() + "&hash=" + $('#uploadFinal_hash').val() +
+          "&rsa_key=" + $('#uploadFinal_rsa_key').val() + "&trans_id=" + $('#uploadFinal_trans_id').val(),
+        success: function (data) {
+          console.log(data);
+          var jsonObj = $.parseJSON(data)
+          alert(jsonObj.msg);
+        },
+        fail: function (data) {
+          console.log(data);
+          alert("请求失败");
+        }
+      });
+    });
+
+    $("#upload_btn").on('click', function () {
+      console.log("click upload file ok");
+      var file_obj = document.getElementById('uploadFileId').files[0];
+      var fd = new FormData();
+      fd.append('file', file_obj);
+      $.ajax({
+        url: getIpfsAddres() + '/modelclient/uploadfile',
+        type: 'post',
+        data: fd,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+          console.log(data); //
+          var jsonObj = $.parseJSON(data);
+          //alert(jsonObj.msg);
+          $("#display_model_ipfs_hash").html("Model Ipfs Hash: " + jsonObj.msg)
+        }
+      });
+      return false;
+    });
+
+    $("#polymerization_btn").on('click', function () {
+
+      console.log("click polymerization model button ok");
+      // var file_obj = document.getElementById('uploadFileId').files[0];
+      // var fd = new FormData();
+      // fd.append('file', file_obj);
+      top.location.href = interfaceAddress + '/modelclient/modelpolymerization';
+
+    });
+
+
+  })
+</script>
 
 
 </html>

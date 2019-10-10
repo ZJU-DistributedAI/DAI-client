@@ -60,6 +60,7 @@ def main():
     worker_num = args.worker_num  # the number of workers/nodes
 
     model_path = os.path.join(os.getcwd(), "modelset")
+    model_result = os.path.join(os.getcwd(), "modelresult")
     print(os.listdir(model_path))
     length = len([_ for _ in os.listdir(model_path)])
 
@@ -98,7 +99,7 @@ def main():
     model_global = model_global.to(device)
 
     if (args.save_model):
-        torch.save(model_global.state_dict(),os.path.join(model_path, "FedAvg_mnist_iid.pt"))
+        torch.save(model_global.state_dict(),os.path.join(model_result, "FedAvg_mnist_iid.pt"))
 
 
 

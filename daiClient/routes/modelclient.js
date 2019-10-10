@@ -168,9 +168,15 @@ router.get('/downloadfile', function(req, res){
 router.get('/modelpolymerization', function(req, res){
 
     nodecmd.get('python ../FedAvg-mnist-iid/modelset/main.py', function(err, data, stderr){
-        console.log(data);
+        var foldPath = path.resolve(__dirname, "../FedAvg-mnist-iid/modelresult/")
+        var files = fs.readdirSync(foldPath)
+        
+        res.download(path.join(foldPath, files[0]), function(err){
+            if(err){
+                console.log(err);
+            }
+        })
     });
-
 
 });
 
